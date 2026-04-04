@@ -35,21 +35,21 @@ export const TEMPLATE_REGISTRY: Record<CategoryId, (m: LandingModel) => string> 
 };
 
 const FOOTER_COPY: Record<CategoryId, { eyebrow: string; title: string; body: string }> = {
-  tech: { eyebrow: '開始成長', title: '把產品價值，說到客戶願意立刻預約。', body: '從定位到轉換節奏，一次整理成更像成熟產品的首頁。' },
-  beauty: { eyebrow: '品牌升級', title: '讓質感先被感受到，成交才會更自然。', body: '用更高級的視覺與敘事，把品牌價值完整放大。' },
-  food: { eyebrow: '立即轉單', title: '把食慾與信任感，一起做到頁面裡。', body: '讓產品特色、產地故事與購買理由同時成立。' },
-  health: { eyebrow: '開始轉換', title: '把成果說清楚，行動就更容易發生。', body: '讓使用者更快理解你的方法、差異與報名理由。' },
-  fashion: { eyebrow: '系列上線', title: '讓風格先成立，價格才撐得住。', body: '用更完整的品牌節奏，讓服飾不只是商品陳列。' },
-  design: { eyebrow: '下一步', title: '把作品感，升級成真正會成交的提案感。', body: '讓網站不只是展示，而是替創意團隊接案的入口。' },
-  engineering: { eyebrow: '提升信任', title: '把產能、品質與交期，說成客戶敢下單的理由。', body: '讓專業能力從規格表，變成更有說服力的商務畫面。' },
-  jewelry: { eyebrow: '預約鑑賞', title: '讓珍貴感先到位，價值才會被真正理解。', body: '用更細膩的呈現方式，讓收藏感自然成立。' },
-  dining: { eyebrow: '立即訂位', title: '讓人還沒入座，就先想把這一餐訂下來。', body: '把料理、空間與氛圍整合成更有記憶點的頁尾收束。' },
-  beverage: { eyebrow: '本季主打', title: '把風味說得更迷人，客人才會更想點。', body: '讓品牌氣氛、味覺聯想與行動按鈕一次到位。' },
-  legal: { eyebrow: '預約諮詢', title: '先建立信任，下一步溝通才會更有效。', body: '讓專業判斷、服務領域與聯繫理由在最後一屏完整收斂。' },
-  hotel: { eyebrow: '立即入住', title: '讓旅程的期待，從最後一屏就開始升溫。', body: '把氛圍、方案與預約動機收成更有吸引力的結尾。' },
-  finance: { eyebrow: '立即預約', title: '把專業說得更清楚，客戶才敢把資產交給你。', body: '讓策略、信任與行動，在最後一屏形成更強的決策推力。' },
-  edu: { eyebrow: '開始學習', title: '把課程價值講清楚，報名就不需要再猶豫。', body: '用更清楚的學習路徑與行動設計，把興趣推進成報名。' },
-  travel: { eyebrow: '規劃旅程', title: '讓人一看到結尾，就想把行程排進日曆。', body: '用更有情緒的收尾，把嚮往轉成真正的出發動機。' },
+  tech: { eyebrow: '開始成交', title: '讓產品價值，一開口就更有說服力。', body: '把定位、功能與信任整合成更能推動預約的首頁。' },
+  beauty: { eyebrow: '品牌升級', title: '讓高級感先成立，轉單才會更自然。', body: '把質地、故事與信任感收成更完整的品牌結尾。' },
+  food: { eyebrow: '立即轉單', title: '把想吃的衝動，推進成真正下單。', body: '讓風味、產地與購買理由在最後一屏一起成立。' },
+  health: { eyebrow: '開始轉換', title: '把成果講明白，行動就不再拖延。', body: '讓方法、差異與報名理由在結尾一次到位。' },
+  fashion: { eyebrow: '系列上線', title: '讓風格先打中人，價格才站得住。', body: '把品牌氣質與購買慾望在最後一屏一起拉滿。' },
+  design: { eyebrow: '下一步', title: '讓作品被喜歡，也被放心交付。', body: '把品味、方法與合作價值收成更強的接案訊號。' },
+  engineering: { eyebrow: '提升信任', title: '把硬實力，說成客戶敢直接詢價的理由。', body: '把規格、交期與驗證收成更有商務說服力的結尾。' },
+  jewelry: { eyebrow: '預約鑑賞', title: '讓珍貴感先到位，價值自然被看懂。', body: '把工藝、材質與收藏感收進更高級的最後一屏。' },
+  dining: { eyebrow: '立即訂位', title: '讓人還沒入座，就先想把位子訂下來。', body: '把料理、氣氛與訂位動機收成更迷人的最後一屏。' },
+  beverage: { eyebrow: '本季主打', title: '讓風味更有畫面，點單就更自然。', body: '把氣氛、味覺聯想與行動理由收得更完整。' },
+  legal: { eyebrow: '預約諮詢', title: '先建立信任，再談重要決定。', body: '把專業判斷、服務範圍與聯繫理由收成更穩的結尾。' },
+  hotel: { eyebrow: '立即入住', title: '讓入住的期待，在最後一屏就開始升溫。', body: '把氛圍、房型與預約動機收成更有吸引力的結尾。' },
+  finance: { eyebrow: '立即預約', title: '把專業講清楚，客戶才敢把資產交給你。', body: '讓策略、信任與行動在最後一屏形成更強的決策推力。' },
+  edu: { eyebrow: '開始學習', title: '把課程價值講明白，報名就更自然。', body: '用更清楚的學習路徑與行動設計，把興趣推進成報名。' },
+  travel: { eyebrow: '規劃旅程', title: '讓人看到結尾，就開始想排假出發。', body: '用更有情緒的收尾，把嚮往推進成真正的出發動機。' },
 };
 
 const GLOBAL_RESPONSIVE_CSS = `
@@ -244,3 +244,4 @@ export function renderTemplate(m: LandingModel): string {
   const renderer = TEMPLATE_REGISTRY[m.category];
   return `${GLOBAL_RESPONSIVE_CSS}${GLOBAL_KEYFRAMES}<div data-lp-shell data-category="${m.category}">${renderer(m)}${renderSharedGallery(m)}${renderSharedFooterCta(m)}</div>`;
 }
+
