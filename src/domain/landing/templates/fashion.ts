@@ -1,99 +1,73 @@
 import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
 
-/**
- * Fashion — PURE TYPOGRAPHIC layout: the brand name IS the design.
- * Huge overlapping text, minimal imagery, no conventional grid.
- * Effect: letter-spacing expand animation on hero brand name.
- */
+/** Fashion: full-bleed campaign hero with shimmer veil and editorial imagery. */
 export function renderFashion(m: LandingModel): string {
   const H = escapeHtml;
+  const heroImg = 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1800&auto=format&fit=crop&q=80';
+  const detailImg = 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1200&auto=format&fit=crop&q=80';
 
   return `
   <style>
-    @keyframes trackIn {
-      from { letter-spacing: -0.05em; opacity: 0; }
-      to   { letter-spacing: 0.18em;  opacity: 1; }
-    }
-    @keyframes fashionFade { from{opacity:0;} to{opacity:1;} }
-    .fashion-brand { animation: trackIn 1.2s cubic-bezier(0.16,1,0.3,1) both; }
-    .fashion-sub { animation: fashionFade 1s ease 0.6s both; opacity:0; }
-    .fashion-img-hover { transition: transform 0.6s ease, filter 0.4s ease; }
-    .fashion-img-hover:hover { transform: scale(1.03); filter: contrast(1.05); }
+    @keyframes fashionPan { from { transform: scale(1.02) translate3d(0,0,0); } to { transform: scale(1.10) translate3d(-1.5%, -1%, 0); } }
+    @keyframes fashionTitleIn { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fashionShimmer { from { transform:translateX(-120%) skewX(-22deg); } to { transform:translateX(220%) skewX(-22deg); } }
+    .fashion-hero-img { animation: fashionPan 14s ease-in-out infinite alternate; }
+    .fashion-title, .fashion-copy { animation: fashionTitleIn 0.85s ease both; }
+    .fashion-copy { animation-delay: 0.18s; }
+    .fashion-veil::after { content:''; position:absolute; inset:0; background:linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.0) 38%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.0) 62%, transparent 100%); animation:fashionShimmer 4.6s ease-in-out infinite; }
   </style>
   <section style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};overflow:hidden;">
-    <!-- Minimal nav -->
-    <nav style="padding:28px 60px;display:flex;align-items:center;justify-content:space-between;">
-      <span style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};">Menu</span>
-      <div style="display:flex;gap:40px;">
-        <a style="color:${m.palette.muted};text-decoration:none;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;">新季</a>
-        <a style="color:${m.palette.muted};text-decoration:none;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;">女裝</a>
-        <a style="color:${m.palette.muted};text-decoration:none;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;">男裝</a>
+    <div style="position:relative;min-height:100vh;overflow:hidden;">
+      <div class="fashion-veil" style="position:absolute;inset:0;overflow:hidden;">
+        <img class="fashion-hero-img" src="${heroImg}" alt="fashion campaign" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.62) contrast(1.04);" />
       </div>
-      <a style="color:${m.palette.text};text-decoration:none;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;border-bottom:1px solid currentColor;cursor:pointer;">${H(m.cta)}</a>
-    </nav>
-
-    <!-- OVERSIZED BRAND NAME -->
-    <div style="padding:0 60px;overflow:hidden;">
-      <h1 class="fashion-brand" style="font-size:clamp(80px,15vw,200px);font-weight:900;color:${m.palette.text};margin:0;line-height:0.9;text-transform:uppercase;letter-spacing:0.18em;">
-        ${H(m.brandName)}
-      </h1>
-    </div>
-
-    <!-- Split: tagline left, image right, overlapping -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;min-height:70vh;margin-top:-20px;">
-      <div style="padding:60px 60px 80px;display:flex;flex-direction:column;justify-content:flex-end;">
-        <p class="fashion-sub" style="font-size:13px;color:${m.palette.muted};letter-spacing:0.2em;text-transform:uppercase;margin:0 0 20px;">2025 秋冬系列</p>
-        <p style="font-size:clamp(22px,3vw,40px);font-style:italic;color:${m.palette.text};line-height:1.2;margin:0 0 24px;">"${H(m.tagline)}"</p>
-        <p style="font-size:16px;color:${m.palette.muted};line-height:1.7;margin:0 0 36px;max-width:400px;">${H(m.subheadline)}</p>
-        <a style="font-size:12px;color:${m.palette.text};letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:4px;width:fit-content;cursor:pointer;">${H(m.cta)} →</a>
-      </div>
-      <div class="fashion-img-hover" style="overflow:hidden;">
-        <img src="${m.imgs.hero}" alt="fashion" style="width:100%;height:100%;object-fit:cover;display:block;" />
-      </div>
-    </div>
-
-    <!-- TYPE-ONLY PHILOSOPHY SECTION -->
-    <div style="padding:100px 60px;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;">
-      <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;">
-        <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};margin:0;padding-top:6px;">品牌哲學</p>
-        <div>
-          <p style="font-size:clamp(22px,2.5vw,36px);line-height:1.4;color:${m.palette.text};margin:0 0 32px;font-style:italic;">"${H(m.pain)}"</p>
-          <p style="font-size:16px;color:${m.palette.muted};line-height:1.8;">${H(m.solution)}</p>
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.26) 42%, rgba(0,0,0,0.36) 100%);"></div>
+      <nav style="position:relative;z-index:2;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.72);">Maison ${H(m.brandName)}</span>
+        <div style="display:flex;gap:36px;align-items:center;">
+          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">Collection</a>
+          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">Lookbook</a>
+          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">Editorial</a>
+          <button style="background:#fff;color:#111;border:none;padding:12px 24px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:${m.font};font-weight:700;">${H(m.cta)}</button>
+        </div>
+      </nav>
+      <div style="position:relative;z-index:2;padding:120px 60px 80px;max-width:760px;display:flex;flex-direction:column;justify-content:flex-end;min-height:calc(100vh - 90px);">
+        <div class="fashion-title" style="font-size:12px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.64);margin-bottom:18px;">Autumn Campaign / Elevated Essentials</div>
+        <h1 class="fashion-title" style="font-size:clamp(56px,9vw,124px);font-weight:800;color:#fff;margin:0 0 18px;line-height:0.92;text-transform:uppercase;letter-spacing:0.08em;">${H(m.brandName)}</h1>
+        <p class="fashion-copy" style="font-size:clamp(26px,3vw,42px);font-style:italic;color:#fff;line-height:1.2;margin:0 0 24px;">${H(m.tagline)}</p>
+        <p class="fashion-copy" style="font-size:17px;color:rgba(255,255,255,0.82);line-height:1.85;margin:0 0 34px;max-width:520px;">${H(m.subheadline)}</p>
+        <div class="fashion-copy" style="display:flex;gap:14px;align-items:center;">
+          <button style="background:#fff;color:#111;border:none;padding:15px 30px;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;font-family:${m.font};font-weight:700;">${H(m.cta)}</button>
+          <span style="font-size:12px;color:rgba(255,255,255,0.58);letter-spacing:0.14em;text-transform:uppercase;">new silhouette / signature tailoring</span>
         </div>
       </div>
     </div>
 
-    <!-- EDITORIAL IMAGE PAIR -->
-    <div style="display:grid;grid-template-columns:2fr 3fr;gap:3px;background:${m.palette.muted}20;">
-      <div class="fashion-img-hover" style="overflow:hidden;aspect-ratio:3/4;">
-        <img src="${m.imgs.secondary??m.imgs.hero}" alt="f2" style="width:100%;height:100%;object-fit:cover;display:block;" />
-      </div>
-      <div style="display:flex;flex-direction:column;justify-content:space-between;padding:60px;">
-        <p style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};">精選系列</p>
+    <div style="padding:96px 60px;border-top:1px solid rgba(17,17,17,0.08);border-bottom:1px solid rgba(17,17,17,0.08);">
+      <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:72px;align-items:start;">
+        <p style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:${m.palette.muted};margin:0;padding-top:8px;">Design Philosophy</p>
         <div>
-          ${m.features.map(f => `
-          <div style="padding:20px 0;border-bottom:1px solid #eeeeee;">
-            <p style="font-size:15px;color:${m.palette.text};margin:0;">${H(f)}</p>
-          </div>`).join('')}
+          <p style="font-size:clamp(24px,2.8vw,40px);line-height:1.35;color:${m.palette.text};margin:0 0 28px;font-style:italic;">${H(m.pain)}</p>
+          <p style="font-size:16px;color:${m.palette.muted};line-height:1.9;margin:0;">${H(m.solution)}</p>
         </div>
-        <button style="background:${m.palette.text};color:${m.palette.bg};border:none;padding:14px 40px;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;font-family:${m.font};width:fit-content;">${H(m.cta)}</button>
       </div>
     </div>
 
-    <!-- QUOTES as full-width type -->
-    <div style="padding:80px 60px;max-width:700px;margin:0 auto;">
-      ${m.quotes.map(q=>`
-      <div style="margin-bottom:56px;">
-        <p style="font-size:22px;font-style:italic;color:${m.palette.text};margin:0 0 12px;line-height:1.4;">"${H(q.text)}"</p>
-        <p style="font-size:11px;color:${m.palette.muted};letter-spacing:0.12em;text-transform:uppercase;margin:0;">${H(q.author)}</p>
-      </div>`).join('')}
+    <div style="display:grid;grid-template-columns:2fr 3fr;gap:4px;background:${m.palette.muted}14;">
+      <div style="overflow:hidden;min-height:520px;"><img src="${detailImg}" alt="editorial detail" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
+      <div style="display:flex;flex-direction:column;justify-content:space-between;padding:60px;background:${m.palette.bg};">
+        <p style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:${m.palette.muted};margin:0 0 18px;">Key Notes</p>
+        <div>${m.features.map(f => `<div style="padding:18px 0;border-bottom:1px solid #ECECEC;"><p style="font-size:15px;color:${m.palette.text};margin:0;line-height:1.7;">${H(f)}</p></div>`).join('')}</div>
+        <button style="background:${m.palette.text};color:${m.palette.bg};border:none;padding:15px 40px;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;font-family:${m.font};width:fit-content;">${H(m.cta)}</button>
+      </div>
     </div>
 
-    <!-- FOOTER CTA -->
-    <div style="background:${m.palette.text};padding:80px 60px;text-align:center;">
-      <h2 style="font-size:clamp(32px,5vw,64px);font-weight:900;color:${m.palette.bg};text-transform:uppercase;letter-spacing:0.12em;margin:0 0 32px;">${H(m.brandName)}</h2>
-      <button style="background:${m.palette.bg};color:${m.palette.text};border:none;padding:14px 48px;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;font-family:${m.font};">${H(m.cta)}</button>
+    <div style="padding:84px 60px;max-width:760px;margin:0 auto;">${m.quotes.map(q=>`<div style="margin-bottom:54px;"><p style="font-size:24px;font-style:italic;color:${m.palette.text};margin:0 0 14px;line-height:1.45;">\"${H(q.text)}\"</p><p style="font-size:11px;color:${m.palette.muted};letter-spacing:0.14em;text-transform:uppercase;margin:0;">${H(q.author)}</p></div>`).join('')}</div>
+
+    <div style="background:${m.palette.text};padding:84px 60px;text-align:center;">
+      <h2 style="font-size:clamp(34px,5vw,70px);font-weight:900;color:${m.palette.bg};text-transform:uppercase;letter-spacing:0.12em;margin:0 0 28px;">${H(m.brandName)}</h2>
+      <button style="background:${m.palette.bg};color:${m.palette.text};border:none;padding:15px 50px;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;font-family:${m.font};">${H(m.cta)}</button>
     </div>
   </section>`;
 }
