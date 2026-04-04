@@ -1,4 +1,4 @@
-import type { LandingModel } from '../../brand-analysis/types';
+﻿import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
 import { renderReviewCards } from './reviews';
 
@@ -61,8 +61,8 @@ export function renderDesign(m: LandingModel): string {
         <div style="font-size:20px;font-weight:700;color:${D.text};">${H(m.brandName)}</div>
       </div>
       <div style="display:flex;gap:28px;align-items:center;">
-        <a style="font-size:13px;color:${D.muted};text-decoration:none;">Work</a>
-        <a style="font-size:13px;color:${D.muted};text-decoration:none;">Method</a>
+        <a style="font-size:13px;color:${D.muted};text-decoration:none;">作品案例</a>
+        <a style="font-size:13px;color:${D.muted};text-decoration:none;">合作方式</a>
         <a style="font-size:13px;color:${D.muted};text-decoration:none;">Reviews</a>
         <button class="design-cta" style="background:${D.primary};color:#0B0B0C;border:none;padding:13px 24px;font-size:13px;font-weight:700;letter-spacing:0.06em;cursor:pointer;">${H(m.cta)}</button>
       </div>
@@ -70,7 +70,7 @@ export function renderDesign(m: LandingModel): string {
 
     <div style="padding:84px 58px 54px;display:grid;grid-template-columns:7fr 5fr;gap:56px;align-items:end;">
       <div class="design-enter">
-        <div style="font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:${D.primary};margin-bottom:20px;">Identity Direction / Digital Systems / High-Intent Launches</div>
+        <div style="font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:${D.primary};margin-bottom:20px;">品牌方向 / 數位系統 / 高意圖轉換頁</div>
         <h1 style="font-size:clamp(48px,7vw,102px);line-height:0.96;margin:0;color:${D.text};font-weight:800;max-width:860px;">
           ${H(m.tagline)}
         </h1>
@@ -107,7 +107,7 @@ export function renderDesign(m: LandingModel): string {
 
     <div style="padding:0 58px 78px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;">
       <div>
-        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">Method</div>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">合作方式</div>
         <h2 style="font-size:38px;line-height:1.16;color:${D.text};margin:0 0 20px;font-weight:700;">A quieter visual system with stronger commercial intent.</h2>
         <p style="font-size:17px;line-height:1.92;color:${D.muted};margin:0;">${H(m.solution)}</p>
       </div>
@@ -131,7 +131,7 @@ export function renderDesign(m: LandingModel): string {
     </div>
 
     <div style="padding:0 58px 90px;">
-      <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">Client Reviews</div>
+      <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">合作回饋</div>
       ${renderReviewCards(m, { theme: 'design', columns: 2 })}
     </div>
 
@@ -144,3 +144,4 @@ export function renderDesign(m: LandingModel): string {
     </div>
   </section>`;
 }
+

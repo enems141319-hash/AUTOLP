@@ -1,4 +1,4 @@
-import type { LandingModel } from '../../brand-analysis/types';
+﻿import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
 
 /** Fashion: full-bleed campaign hero with shimmer veil and editorial imagery. */
@@ -26,9 +26,9 @@ export function renderFashion(m: LandingModel): string {
       <nav style="position:relative;z-index:2;padding:28px 60px;display:flex;align-items:center;justify-content:space-between;">
         <span style="font-size:13px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.72);">Maison ${H(m.brandName)}</span>
         <div style="display:flex;gap:36px;align-items:center;">
-          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">Collection</a>
-          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">Lookbook</a>
-          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">Editorial</a>
+          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">本季系列</a>
+          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">形象特輯</a>
+          <a style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">品牌故事</a>
           <button style="background:#fff;color:#111;border:none;padding:12px 24px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:${m.font};font-weight:700;">${H(m.cta)}</button>
         </div>
       </nav>
@@ -71,3 +71,4 @@ export function renderFashion(m: LandingModel): string {
     </div>
   </section>`;
 }
+

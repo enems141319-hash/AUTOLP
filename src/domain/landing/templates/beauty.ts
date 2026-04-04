@@ -1,87 +1,57 @@
-import type { LandingModel } from '../../brand-analysis/types';
+﻿import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
 import { renderReviewCards } from './reviews';
 
-/** Beauty — editorial hero. Effect: shimmer sweep on hero image + fade-up text. */
 export function renderBeauty(m: LandingModel): string {
   const H = escapeHtml;
-
-  const features = m.features.map(f => `
-    <div style="text-align:center;padding:0 16px;">
-      <div style="width:48px;height:48px;border-radius:50%;background:${m.palette.accent};opacity:0.3;margin:0 auto 16px;"></div>
-      <p style="color:${m.palette.text};font-size:15px;margin:0;line-height:1.6;">${H(f)}</p>
-    </div>`).join('');
+  const features = m.features.map((feature) => `
+    <div style="padding:22px;border:1px solid rgba(190,138,106,0.18);border-radius:20px;background:rgba(255,255,255,0.76);backdrop-filter:blur(10px);">
+      <div style="width:34px;height:34px;border-radius:50%;background:${m.palette.accent}22;margin-bottom:14px;"></div>
+      <p style="margin:0;color:${m.palette.text};font-size:15px;line-height:1.7;">${H(feature)}</p>
+    </div>
+  `).join('');
 
   return `
-  <style>
-    @keyframes shimmerSweep {
-      0%   { transform:translateX(-100%) skewX(-20deg); }
-      100% { transform:translateX(300%) skewX(-20deg); }
-    }
-    @keyframes beautyFadeUp {
-      from { opacity:0; transform:translateY(28px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-    .beauty-shimmer::after {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.25) 50%,transparent 100%);
-      animation: shimmerSweep 3s ease-in-out 1s infinite;
-    }
-    .beauty-hero-text { animation: beautyFadeUp 0.9s ease 0.4s both; }
-  </style>
-  <section style="background:${m.palette.bg};font-family:${m.font};">
-    <nav style="padding:28px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(190,138,106,0.15);">
-      <span style="font-size:22px;font-weight:400;color:${m.palette.text};letter-spacing:0.12em;text-transform:uppercase;">${H(m.brandName)}</span>
-      <div style="display:flex;gap:40px;">
-        <a style="color:${m.palette.muted};text-decoration:none;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;">系列</a>
-        <a style="color:${m.palette.muted};text-decoration:none;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;">成分</a>
-        <a style="color:${m.palette.muted};text-decoration:none;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;">故事</a>
-        <a style="color:${m.palette.primary};text-decoration:none;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid currentColor;">${H(m.cta)}</a>
+  <section style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};">
+    <nav style="padding:26px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(190,138,106,0.16);">
+      <span style="font-size:22px;color:${m.palette.text};letter-spacing:0.12em;text-transform:uppercase;">${H(m.brandName)}</span>
+      <div style="display:flex;gap:30px;align-items:center;">
+        <a style="font-size:13px;color:${m.palette.muted};text-decoration:none;">品牌故事</a>
+        <a style="font-size:13px;color:${m.palette.muted};text-decoration:none;">產品亮點</a>
+        <a style="font-size:13px;color:${m.palette.muted};text-decoration:none;">使用感受</a>
+        <button style="background:${m.palette.primary};color:#fff;border:none;border-radius:999px;padding:12px 24px;font-size:13px;cursor:pointer;">${H(m.cta)}</button>
       </div>
     </nav>
 
-    <!-- HERO WITH SHIMMER -->
-    <div style="position:relative;height:90vh;overflow:hidden;">
-      <div class="beauty-shimmer" style="position:relative;width:100%;height:100%;overflow:hidden;">
-        <img src="${m.imgs.hero}" alt="hero" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.72);" />
+    <div style="display:grid;grid-template-columns:1.15fr 1fr;min-height:640px;">
+      <div style="padding:88px 60px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${m.palette.primary};margin-bottom:18px;">精品保養 / 柔和質地 / 儀式感體驗</div>
+        <h1 style="font-size:clamp(42px,5vw,74px);line-height:1.06;font-weight:400;margin:0 0 18px;max-width:640px;">${H(m.tagline)}</h1>
+        <p style="font-size:17px;line-height:1.9;color:${m.palette.muted};max-width:540px;margin:0 0 30px;">${H(m.subheadline)}</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <button style="background:${m.palette.text};color:#fff;border:none;border-radius:999px;padding:14px 28px;font-size:14px;font-weight:700;cursor:pointer;">${H(m.cta)}</button>
+          <button style="background:transparent;color:${m.palette.text};border:1px solid rgba(44,24,16,0.18);border-radius:999px;padding:14px 28px;font-size:14px;cursor:pointer;">查看品牌提案</button>
+        </div>
       </div>
-      <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:80px;">
-        <div class="beauty-hero-text">
-          <p style="color:rgba(255,255,255,0.7);font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">${H(m.brandName)}</p>
-          <h1 style="font-size:clamp(48px,6vw,88px);color:#fff;font-weight:300;margin:0 0 24px;line-height:1.05;max-width:700px;">${H(m.tagline)}</h1>
-          <p style="font-size:18px;color:rgba(255,255,255,0.8);margin:0 0 40px;max-width:500px;line-height:1.6;">${H(m.subheadline)}</p>
-          <button style="background:transparent;color:#fff;border:1px solid #fff;padding:14px 36px;font-size:14px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:${m.font};">${H(m.cta)}</button>
+      <div style="position:relative;overflow:hidden;">
+        <img src="${m.imgs.hero}" alt="${H(m.brandName)} 主視覺" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.92);" />
+        <div style="position:absolute;inset:auto 36px 36px 36px;background:rgba(255,255,255,0.82);backdrop-filter:blur(12px);border-radius:22px;padding:22px;max-width:360px;box-shadow:0 24px 60px rgba(0,0,0,0.10);">
+          <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:${m.palette.primary};margin-bottom:10px;">品牌觀點</div>
+          <p style="font-size:15px;line-height:1.8;color:${m.palette.text};margin:0;">${H(m.solution)}</p>
         </div>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0 auto;padding:80px 60px;gap:80px;align-items:center;">
+    <div style="max-width:1240px;margin:0 auto;padding:72px 60px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+      <img src="${m.imgs.secondary ?? m.imgs.hero}" alt="${H(m.brandName)} 產品形象" style="width:100%;height:520px;object-fit:cover;border-radius:28px;" />
       <div>
-        <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};margin:0 0 16px;">我們相信的</p>
-        <h2 style="font-size:38px;font-weight:300;color:${m.palette.text};margin:0 0 24px;line-height:1.2;">${H(m.pain)}</h2>
-        <p style="font-size:16px;color:${m.palette.muted};line-height:1.8;margin:0;">${H(m.solution)}</p>
-      </div>
-      <div style="aspect-ratio:4/5;overflow:hidden;">
-        <img src="${m.imgs.secondary??m.imgs.hero}" alt="story" style="width:100%;height:100%;object-fit:cover;" />
+        <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:${m.palette.primary};margin-bottom:14px;">品牌需要被感受</div>
+        <h2 style="font-size:34px;line-height:1.2;font-weight:400;margin:0 0 16px;">${H(m.pain)}</h2>
+        <p style="font-size:16px;line-height:1.85;color:${m.palette.muted};margin:0 0 26px;">${H(m.solution)}</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">${features}</div>
       </div>
     </div>
 
-    <div style="background:${m.palette.surface};padding:60px;">
-      <p style="text-align:center;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};margin:0 0 48px;">我們的承諾</p>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:40px;max-width:1000px;margin:0 auto;">${features}</div>
-    </div>
-
-    <div style="padding:80px 60px;">
-      <div style="max-width:900px;margin:0 auto;">
-        <p style="text-align:center;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};margin:0 0 48px;">真實見證</p>
-        ${renderReviewCards(m, { theme: 'beauty', columns: 2 })}
-      </div>
-    </div>
-
-    <div style="text-align:center;padding:80px 40px;border-top:1px solid rgba(190,138,106,0.2);">
-      <p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};margin:0 0 16px;">${H(m.brandName)}</p>
-      <h2 style="font-size:42px;font-weight:300;color:${m.palette.text};margin:0 0 32px;">${H(m.tagline)}</h2>
-      <button style="background:${m.palette.primary};color:#fff;border:none;padding:16px 48px;font-size:14px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:${m.font};">${H(m.cta)}</button>
-    </div>
+    <div style="padding:0 60px 80px;"><div style="max-width:1240px;margin:0 auto;"><div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:${m.palette.primary};margin-bottom:18px;text-align:center;">客戶回饋</div>${renderReviewCards(m, { theme: 'beauty', columns: 2 })}</div></div>
   </section>`;
 }
