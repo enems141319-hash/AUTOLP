@@ -1,5 +1,6 @@
 import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
+import { renderReviewCards } from './reviews';
 
 /** Legal — dark trust-first. Effect: animated underline draw on headline. */
 export function renderLegal(m: LandingModel): string {
@@ -124,7 +125,7 @@ export function renderLegal(m: LandingModel): string {
       <div style="max-width:1200px;margin:0 auto;">
         <h2 style="font-size:26px;font-weight:700;margin:0 0 10px;color:${D.text};">客戶的信任</h2>
         <div style="height:2px;width:44px;background:${D.accent};margin-bottom:36px;"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">${quotes}</div>
+        ${renderReviewCards(m, { theme: 'legal', columns: 2 })}
       </div>
     </div>
 

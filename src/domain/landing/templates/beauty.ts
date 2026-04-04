@@ -1,5 +1,6 @@
 import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
+import { renderReviewCards } from './reviews';
 
 /** Beauty — editorial hero. Effect: shimmer sweep on hero image + fade-up text. */
 export function renderBeauty(m: LandingModel): string {
@@ -9,12 +10,6 @@ export function renderBeauty(m: LandingModel): string {
     <div style="text-align:center;padding:0 16px;">
       <div style="width:48px;height:48px;border-radius:50%;background:${m.palette.accent};opacity:0.3;margin:0 auto 16px;"></div>
       <p style="color:${m.palette.text};font-size:15px;margin:0;line-height:1.6;">${H(f)}</p>
-    </div>`).join('');
-
-  const quotes = m.quotes.map(q => `
-    <div style="background:${m.palette.surface};padding:40px;border-radius:4px;">
-      <p style="font-size:18px;font-style:italic;color:${m.palette.text};margin:0 0 16px;line-height:1.7;">"${H(q.text)}"</p>
-      <p style="font-size:13px;color:${m.palette.muted};margin:0;letter-spacing:0.08em;text-transform:uppercase;">${H(q.author)}</p>
     </div>`).join('');
 
   return `
@@ -79,7 +74,7 @@ export function renderBeauty(m: LandingModel): string {
     <div style="padding:80px 60px;">
       <div style="max-width:900px;margin:0 auto;">
         <p style="text-align:center;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.muted};margin:0 0 48px;">真實見證</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">${quotes}</div>
+        ${renderReviewCards(m, { theme: 'beauty', columns: 2 })}
       </div>
     </div>
 

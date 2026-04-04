@@ -1,5 +1,6 @@
 import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
+import { renderReviewCards } from './reviews';
 
 /** Tech — dark hero with floating particle dots, brand name in H1 */
 export function renderTech(m: LandingModel): string {
@@ -95,7 +96,7 @@ export function renderTech(m: LandingModel): string {
 
     <div style="max-width:900px;margin:80px auto;padding:0 40px;">
       <h2 style="font-size:32px;color:${m.palette.text};text-align:center;margin:0 0 48px;font-weight:700;">客戶怎麼說</h2>
-      <div style="display:flex;flex-direction:column;gap:32px;">${quotes}</div>
+      ${renderReviewCards(m, { theme: 'tech', columns: 2 })}
     </div>
 
     <div style="background:linear-gradient(135deg,${m.palette.primary},${m.palette.accent});padding:80px 40px;text-align:center;">

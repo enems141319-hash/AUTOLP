@@ -1,5 +1,6 @@
 import type { LandingModel } from '../../brand-analysis/types';
 import { escapeHtml } from '../../../utils/sanitize';
+import { renderReviewCards } from './reviews';
 
 /** Engineering — dark industrial. Effect: KPI count-up entrance. */
 export function renderEngineering(m: LandingModel): string {
@@ -126,7 +127,7 @@ export function renderEngineering(m: LandingModel): string {
     <div style="background:${D.surface};padding:60px;border-top:1px solid ${D.border};">
       <div style="max-width:1300px;margin:0 auto;">
         <h2 style="font-size:22px;font-weight:700;margin:0 0 40px;text-transform:uppercase;letter-spacing:0.06em;color:${D.text};">客戶聲音</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">${quotes}</div>
+        ${renderReviewCards(m, { theme: 'engineering', columns: 2 })}
       </div>
     </div>
 

@@ -1,109 +1,159 @@
-# AGENTS.md — AutoLP Agent Handbook
+# AGENTS.md - AutoLP Agent Handbook
 
 ## What This Repo Does
-AutoLP generates standalone HTML landing pages from a brand name.
-The pipeline is fully pure-function: input → analysis → model → template → HTML string.
-No server, no database, no runtime dependencies in the output.
+AutoLP generates standalone landing pages from a brand name.
+The core flow is pure-function based:
 
-## Project Layout (read before touching anything)
-```
+`input -> analyzeBrand() -> buildLandingModel() -> renderTemplate() -> exportHtml()`
+
+The runtime app is a thin React shell around that domain pipeline.
+
+## Project Layout
+```text
 src/
-  domain/brand-analysis/   Analysis engine (pure TS, no React)
-  domain/landing/          Model builder + template renderer + HTML export
-  data/                    Static presets and category list
+  app/                     App root
+  components/              Input / Loading / Result screens and shared UI
+  data/                    Static category metadata and presets
+  domain/
+    brand-analysis/        Detection engine and scoring rules
+    landing/               Model builder, template registry, HTML export
   store/                   Zustand UI state only
-  utils/                   hash + sanitize helpers
   tests/                   Vitest test suite
-  components/              React UI (screens + ui primitives)
-  app/                     App root + screen routing
+  utils/                   Hashing and sanitization helpers
 ```
 
-## Before Making Any Change
+## Before Changing Anything
 
-1. **Run tests first**: `npm test` — all 23 must pass before and after your change.
-2. **Read the target file** before editing. Never guess at structure.
-3. **Check `ALL_CATEGORY_IDS`** in `src/data/styleOptions.ts` — it is the single source of truth for the category list.
+1. Read the target file first.
+2. Run `npm test`.
+3. Keep all 26 tests passing.
+4. If the change affects rendering, also run `npm run build`.
 
-## How to Add a New Template
+## Category System
 
-1. Create `src/domain/landing/templates/<category>.ts`
-   - Export `export function render<Category>(m: LandingModel): string`
-   - Use `const H = escapeHtml` and call `H()` on every `m.*` string rendered into HTML
-   - Include at least one CSS `@keyframes` animation in an embedded `<style>` block
-   - Put the brand name inside the hero `<h1>`
+There are 15 supported categories:
 
-2. Register in `src/domain/landing/templates/index.ts`:
-   ```ts
-   import { render<Category> } from './<category>';
-   // add to TEMPLATE_REGISTRY:
-   <category>: render<Category>,
-   ```
+`tech` `beauty` `food` `health` `fashion` `design` `engineering` `jewelry` `dining` `beverage` `legal` `hotel` `finance` `edu` `travel`
 
-3. Add to `CategoryId` union in `src/domain/brand-analysis/types.ts`
+Single sources of truth:
+- Category list: `src/data/styleOptions.ts`
+- Preset content: `src/data/brandPresets.ts`
+- Type union: `src/domain/brand-analysis/types.ts`
+- Renderer registry: `src/domain/landing/templates/index.ts`
 
-4. Add to `ALL_CATEGORY_IDS` array in `src/data/styleOptions.ts`
+## Brand Analysis Rules
 
-5. Add a `CategoryPreset` entry in `src/data/brandPresets.ts`
+Files:
+- `src/domain/brand-analysis/analyzeBrand.ts`
+- `src/domain/brand-analysis/scoringRules.ts`
 
-6. Add a scoring rule entry in `src/domain/brand-analysis/scoringRules.ts`
+Rule shape:
+```ts
+{ pattern: RegExp, category: CategoryId, weight: number }
+```
 
-7. Add a brand-detection test case in `src/tests/core.test.ts`
+Important constraints:
+- Rules run against both tokenized and raw lowercase brand names.
+- Use `\b...\b` for exact token matches.
+- Use prefix patterns like `\bbrew` when suffix variants matter.
+- Chinese semantic rules are intentionally high-weight for obvious names.
 
-## How to Edit an Existing Template
+Chinese category intent:
+- `food`: packaged food, ingredients, snacks, meals
+- `dining`: restaurants, hotpot, grill, chef-led dining
+- `beverage`: tea, coffee, drinks, brewing
 
-- Templates are in `src/domain/landing/templates/<category>.ts`
-- The function signature is always `(m: LandingModel) => string` returning inner HTML only
-- Dark templates (design, engineering, legal, finance) maintain a local `D` palette — do not switch them to `m.palette`
-- Light templates use `m.palette.*` directly
+Examples that must stay correct:
+- `好吃` -> `food`
+- `好喝茶飲` -> `beverage`
+- `鼎王火鍋` -> `dining`
 
-## Scoring Rules (src/domain/brand-analysis/scoringRules.ts)
+Do not let obvious Chinese industry words fall through to hash fallback.
 
-Each rule is `{ category, pattern, weight }`. The `pattern` is tested against:
-- The **tokenized** brand name (camelCase split, lowercased)
-- The **raw lowercased** brand name
+## Template Rules
 
-Word boundary rules:
-- Use `\b...\b` for tokens that should not match as substrings: `\bsteel\b`, `\bcloud\b`
-- Use prefix-only `\bword` (no trailing `\b`) for roots with common suffixes: `\bbrew`, `\bjewel`
-- Short tokens (2–3 chars) like `\bai\b`, `\bfin\b` require both boundaries
+Files:
+- `src/domain/landing/templates/*.ts`
+- Registry: `src/domain/landing/templates/index.ts`
 
-## XSS Safety Contract
+Each template:
+- exports `(m: LandingModel) => string`
+- returns inner HTML only
+- must escape user-facing strings with `escapeHtml()`
+- should keep the brand name in the hero area
 
-`escapeHtml()` in `src/utils/sanitize.ts` must be called on **every** user-supplied value before it is interpolated into a template string. This is tested in `core.test.ts` (`does not contain raw script tags`). Never bypass it.
+Shared responsive behavior:
+- Mobile support is enforced globally in `src/domain/landing/templates/index.ts`
+- The registry wraps every template with a responsive shell
+- Prefer fixing broad mobile issues in that shared layer first
+- Only do category-specific mobile overrides when the shared layer is not enough
 
-## exportHtml Contract
+## HTML Export Contract
 
-`src/domain/landing/exportHtml.ts` wraps `renderTemplate(model)` in a full HTML document.
-- Input: `LandingModel`
-- Output: complete standalone HTML string (no external deps, no scripts)
-- No DOM access allowed inside this function or any template
+File:
+- `src/domain/landing/exportHtml.ts`
 
-## Test Suite Reference (src/tests/core.test.ts)
+Rules:
+- output must be a full standalone HTML document
+- no DOM access in templates or export logic
+- no `window` / `document` use inside domain code
 
-| Suite | Count | What it checks |
-|---|---|---|
-| `hashString` | 3 | Stability, uniqueness, unsigned output |
-| `analyzeBrand override` | 5 | Manual override, auto-detect, hash fallback |
-| `TEMPLATE_REGISTRY` | 1 | All 15 categories have a renderer |
-| `exportHtml` | 3 | Valid HTML, XSS sanitization, all-category smoke |
-| `Brand detection cases` | 10 | Specific brand → expected category |
+## XSS Safety
 
-**Total: 23 tests. All must pass.**
+File:
+- `src/utils/sanitize.ts`
 
-## UI Component Conventions
+Rule:
+- Every user-supplied string rendered into HTML must pass through `escapeHtml()`
 
-- All styling is **inline style objects** — no CSS files, no Tailwind
-- Dark theme color tokens (InputScreen): `#050505` bg, `#FF4D2E` primary, `#F2F2F2` bone
-- Screen routing is controlled by `currentScreen` in the Zustand store (`'input' | 'loading' | 'result'`)
-- `StyleSelector` renders pills for all 16 options (`auto` + 15 categories)
+## Tests
 
-## Common Mistakes to Avoid
+File:
+- `src/tests/core.test.ts`
 
-| Mistake | Why it breaks |
-|---|---|
-| Using `grep`/`cat` to read `.pen` files | `.pen` files are encrypted; use Pencil MCP tools |
-| Touching DOM in templates | `exportHtml` output must work without a browser |
-| Adding a category to only 1–2 of the 4 required files | Tests will fail on registry completeness |
-| Using `\bbrew\b` instead of `\bbrew` | "brewed" won't match |
-| Forgetting `H()` on a template field | XSS test will fail |
-| Running npm in PowerShell without workaround | Execution policy blocks scripts; use cmd.exe |
+Current suite count:
+- 26 tests total
+
+Coverage includes:
+- hash stability and fallback index validity
+- manual style override
+- English keyword detection
+- Chinese semantic detection
+- template registry completeness
+- export HTML sanity and XSS protection
+- category mapping smoke tests
+
+## Deployment
+
+GitHub Pages must be configured like this:
+- `Settings -> Pages -> Build and deployment -> Source -> GitHub Actions`
+
+Workflow:
+- `.github/workflows/deploy-pages.yml`
+
+Important:
+- Deployment must publish `./dist`
+- If the live site is loading `/src/main.tsx`, Pages is serving the repo root by mistake
+
+## Windows Auto Push
+
+Use:
+- `deploy-github-pages.bat`
+
+What it does:
+- checks `git` and `npm`
+- runs `npm test`
+- runs `npm run build`
+- stages all files
+- creates a timestamped commit
+- pushes to `origin/main`
+
+This is the default push path for local manual updates.
+
+## Common Mistakes
+
+- Do not bypass `escapeHtml()` in templates.
+- Do not add a category in only one file.
+- Do not debug mobile layout by patching one template first when the shared responsive shell can solve it.
+- Do not treat the repo root `index.html` as the deployed artifact.
+- Do not use PowerShell npm script execution if policy blocks it; use `cmd /c`.
