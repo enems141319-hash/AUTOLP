@@ -1,0 +1,141 @@
+import type { LandingModel } from '../../brand-analysis/types';
+import { escapeHtml } from '../../../utils/sanitize';
+
+/** Engineering — dark industrial. Effect: KPI count-up entrance. */
+export function renderEngineering(m: LandingModel): string {
+  const H = escapeHtml;
+
+  const D = {
+    bg:      '#0A0C0E',
+    surface: '#111416',
+    card:    '#161A1E',
+    border:  'rgba(255,255,255,0.07)',
+    text:    '#E8EDF2',
+    muted:   'rgba(255,255,255,0.4)',
+    primary: m.palette.primary,
+    accent:  m.palette.accent,
+  };
+
+  const features = m.features.map((f, i) => `
+    <div style="display:flex;gap:20px;padding:24px 0;border-bottom:1px solid ${D.border};">
+      <div style="font-size:28px;font-weight:800;color:${D.primary};opacity:0.35;min-width:48px;font-variant-numeric:tabular-nums;">0${i+1}</div>
+      <p style="margin:0;color:${D.text};font-size:15px;line-height:1.6;">${H(f)}</p>
+    </div>`).join('');
+
+  const quotes = m.quotes.map(q => `
+    <div style="background:${D.card};padding:32px;border-left:4px solid ${D.accent};">
+      <p style="font-size:15px;color:${D.text};margin:0 0 16px;line-height:1.7;">"${H(q.text)}"</p>
+      <p style="font-size:12px;color:${D.muted};margin:0;text-transform:uppercase;letter-spacing:0.08em;">— ${H(q.author)}</p>
+    </div>`).join('');
+
+  const kpis = [['98.7%','準時交付率'],['±0.01mm','加工精度'],['200+','合作客戶']];
+
+  return `
+  <style>
+    @keyframes engCountUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes engSlide {
+      from { opacity:0; transform:translateX(-28px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+    .eng-kpi  { animation: engCountUp 0.6s ease both; }
+    .eng-kpi:nth-child(2) { animation-delay:0.15s; }
+    .eng-kpi:nth-child(3) { animation-delay:0.3s; }
+    .eng-title { animation: engSlide 0.7s ease both; }
+  </style>
+
+  <section style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
+
+    <!-- NAV -->
+    <nav style="background:${D.surface};border-bottom:2px solid ${D.primary};padding:0 60px;">
+      <div style="max-width:1300px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:6px;height:32px;background:${D.primary};"></div>
+          <span style="font-size:17px;font-weight:700;color:${D.text};letter-spacing:0.06em;">${H(m.brandName).toUpperCase()}</span>
+        </div>
+        <div style="display:flex;gap:32px;align-items:center;">
+          <a style="color:${D.muted};text-decoration:none;font-size:13px;letter-spacing:0.04em;">能力範疇</a>
+          <a style="color:${D.muted};text-decoration:none;font-size:13px;letter-spacing:0.04em;">認證資質</a>
+          <a style="color:${D.muted};text-decoration:none;font-size:13px;letter-spacing:0.04em;">案例</a>
+          <button style="background:${D.primary};color:#fff;border:none;padding:10px 24px;font-size:13px;cursor:pointer;font-weight:700;letter-spacing:0.04em;">${H(m.cta)}</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div style="max-width:1300px;margin:0 auto;padding:80px 60px;display:grid;grid-template-columns:5fr 4fr;gap:60px;align-items:center;">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+          <div style="height:1px;width:36px;background:${D.accent};"></div>
+          <span style="font-size:11px;color:${D.accent};letter-spacing:0.18em;text-transform:uppercase;">ISO 9001 · 40+ 年製造經驗</span>
+        </div>
+        <h1 class="eng-title" style="font-size:clamp(28px,3vw,48px);font-weight:700;color:${D.text};margin:0 0 16px;line-height:1.1;">
+          <span style="color:${D.primary};display:block;font-size:0.62em;font-weight:500;margin-bottom:8px;letter-spacing:0.06em;">${H(m.brandName)}</span>
+          ${H(m.tagline)}
+        </h1>
+        <p style="font-size:16px;color:${D.muted};line-height:1.75;margin:0 0 40px;">${H(m.subheadline)}</p>
+        <div style="display:flex;gap:16px;">
+          <button style="background:${D.primary};color:#fff;border:none;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;">${H(m.cta)}</button>
+          <button style="background:transparent;color:${D.text};border:1px solid ${D.border};padding:14px 28px;font-size:15px;cursor:pointer;font-family:inherit;">下載技術手冊</button>
+        </div>
+        <!-- KPI ROW -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border:1px solid ${D.border};">
+          ${kpis.map(([v,l],i)=>`
+          <div class="eng-kpi" style="padding:20px 24px;border-right:${i<2?`1px solid ${D.border}`:'none'};">
+            <div style="font-size:26px;font-weight:700;color:${D.accent};">${v}</div>
+            <div style="font-size:11px;color:${D.muted};margin-top:4px;letter-spacing:0.06em;">${l}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div>
+        <img src="${m.imgs.hero}" alt="engineering" style="width:100%;height:460px;object-fit:cover;display:block;filter:brightness(0.8);" />
+        <div style="background:${D.accent};padding:14px 24px;display:flex;justify-content:space-between;">
+          <span style="font-size:13px;font-weight:700;color:#000;">精密製造 · 工業解決方案</span>
+          <span style="font-size:13px;color:#000;opacity:0.6;">Since 1984</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAIN / SOLUTION -->
+    <div style="background:${D.surface};padding:60px;border-top:1px solid ${D.border};border-bottom:1px solid ${D.border};">
+      <div style="max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr 1px 1fr;gap:60px;">
+        <div>
+          <h3 style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:${D.muted};margin:0 0 16px;">業界痛點</h3>
+          <p style="font-size:17px;line-height:1.8;color:${D.text};">${H(m.pain)}</p>
+        </div>
+        <div style="background:${D.primary};opacity:0.12;"></div>
+        <div>
+          <h3 style="font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:${D.accent};margin:0 0 16px;">我們的解法</h3>
+          <p style="font-size:17px;line-height:1.8;color:${D.text};">${H(m.solution)}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPABILITIES -->
+    <div style="max-width:1300px;margin:0 auto;padding:80px 60px;display:grid;grid-template-columns:1fr 2fr;gap:80px;">
+      <div>
+        <h2 style="font-size:30px;font-weight:700;margin:0 0 14px;color:${D.text};">核心能力</h2>
+        <p style="color:${D.muted};font-size:15px;line-height:1.7;">每一項能力都經過認證，每一個節點都有品質閘控。</p>
+      </div>
+      <div>${features}</div>
+    </div>
+
+    <!-- QUOTES -->
+    <div style="background:${D.surface};padding:60px;border-top:1px solid ${D.border};">
+      <div style="max-width:1300px;margin:0 auto;">
+        <h2 style="font-size:22px;font-weight:700;margin:0 0 40px;text-transform:uppercase;letter-spacing:0.06em;color:${D.text};">客戶聲音</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">${quotes}</div>
+      </div>
+    </div>
+
+    <!-- FOOTER CTA -->
+    <div style="background:${D.primary};padding:60px;text-align:center;">
+      <p style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin:0 0 12px;">${H(m.brandName)}</p>
+      <h2 style="font-size:36px;color:#fff;font-weight:700;margin:0 0 12px;">${H(m.tagline)}</h2>
+      <p style="font-size:16px;color:rgba(255,255,255,0.7);margin:0 0 32px;">立即申請技術評估</p>
+      <button style="background:#fff;color:${D.primary};border:none;padding:16px 40px;font-size:16px;font-weight:700;cursor:pointer;">${H(m.cta)}</button>
+    </div>
+  </section>`;
+}
