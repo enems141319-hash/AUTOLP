@@ -55,6 +55,21 @@ describe('analyzeBrand override', () => {
     expect(result.category).toBe('legal');
   });
 
+  it('auto-detects Chinese food semantics', () => {
+    const result = analyzeBrand('好吃', 'auto');
+    expect(result.category).toBe('food');
+  });
+
+  it('auto-detects Chinese beverage semantics', () => {
+    const result = analyzeBrand('好喝茶飲', 'auto');
+    expect(result.category).toBe('beverage');
+  });
+
+  it('auto-detects Chinese dining semantics', () => {
+    const result = analyzeBrand('鼎王火鍋', 'auto');
+    expect(result.category).toBe('dining');
+  });
+
   it('falls back to hash for unknown brand name', () => {
     const r1 = analyzeBrand('Zzzzqqqxxx', 'auto');
     const r2 = analyzeBrand('Zzzzqqqxxx', 'auto');

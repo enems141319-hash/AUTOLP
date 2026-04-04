@@ -12,6 +12,20 @@ export interface ScoringRule {
 }
 
 export const SCORING_RULES: ScoringRule[] = [
+  // Chinese semantic signals
+  { pattern: /好吃|吃香|美味|食堂|食材|鮮食|飯館|飯堂|便當|料理|廚房|餐盒|食補|食光|食刻|米食|麵館|湯品|小吃|食/i, category: 'food', weight: 12 },
+  { pattern: /餐廳|餐酒|鍋物|火鍋|燒肉|居酒屋|宴席|主廚|私廚|牛排|壽司|食府|食肆|酒館|晚餐|早午餐|宵夜/i, category: 'dining', weight: 12 },
+  { pattern: /好喝|飲品|手搖|茶飲|奶茶|咖啡|果汁|冷萃|茶坊|茶舖|茶行|茶室|咖啡館|咖啡店|豆子|烘豆|喝/i, category: 'beverage', weight: 12 },
+  { pattern: /美肌|保養|香氛|精華|面膜|妝容|美妝|美容|護膚|亮白|嫩膚/i, category: 'beauty', weight: 12 },
+  { pattern: /健身|運動|體能|瑜伽|肌力|燃脂|健康|復健|訓練/i, category: 'health', weight: 12 },
+  { pattern: /設計|創意|視覺|品牌|字體|空間|工作室|編排|選物/i, category: 'design', weight: 12 },
+  { pattern: /工程|製造|機械|金屬|鋼鐵|工具|設備|精工|工業/i, category: 'engineering', weight: 12 },
+  { pattern: /珠寶|金工|銀飾|鑽石|寶石|珍珠|飾品|玉石/i, category: 'jewelry', weight: 12 },
+  { pattern: /法律|律師|法務|顧問|智財|合規|契約/i, category: 'legal', weight: 12 },
+  { pattern: /旅宿|飯店|酒店|民宿|度假|客房|旅館/i, category: 'hotel', weight: 12 },
+  { pattern: /金融|理財|投資|保險|資本|證券|財富/i, category: 'finance', weight: 12 },
+  { pattern: /教育|學院|學習|補習|課程|知識|訓練營/i, category: 'edu', weight: 12 },
+  { pattern: /旅遊|旅行|漫遊|探索|行旅|旅程|遠行/i, category: 'travel', weight: 12 },
   // ── Tech / SaaS ────────────────────────────────────────────────────────────
   { pattern: /\bai\b|\bbot\b|\bgpt\b|\bllm\b|\bml\b|\bauto\b|\bsync\b|\bflow\b|\bpipe\b|\bstack\b|\bapi\b|\bsdk\b|\bsaas\b|\bcloud\b|\bdata\b|\bops\b|\bdev\b|\bhub\b|\blab\b|\.io$|\bio\b/, category: 'tech', weight: 10 },
   { pattern: /\btech\b|\bdigital\b|\bcyber\b|\bnet\b|\bsoft\b|\bcode\b|\bapp\b|\bsys\b|\bplatform\b/, category: 'tech', weight: 8 },
