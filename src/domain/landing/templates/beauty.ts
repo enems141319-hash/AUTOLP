@@ -28,7 +28,13 @@ export function renderBeauty(m: LandingModel): string {
     }
   </style>
 
-  <section class="lp-noise" style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};">
+  <section class="lp-noise" style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};;overflow:hidden">
+
+    <!-- diffuse background orbs -->
+    <div class="lp-orb" style="width:600px;height:600px;background:radial-gradient(circle,${m.palette.primary}28 0%,transparent 70%);top:-160px;left:-140px;animation:diffuseFloat 14s ease-in-out infinite;"></div>
+    <div class="lp-orb" style="width:480px;height:480px;background:radial-gradient(circle,${m.palette.accent}22 0%,transparent 70%);top:60px;right:-100px;animation:diffuseFloat 18s ease-in-out infinite reverse;"></div>
+    <div class="lp-orb" style="width:400px;height:400px;background:radial-gradient(circle,${m.palette.primary}18 0%,transparent 70%);bottom:180px;left:28%;animation:diffuseFloat 22s ease-in-out infinite 4s;"></div>
+    <div class="lp-orb" style="width:340px;height:340px;background:radial-gradient(circle,${m.palette.accent}20 0%,transparent 70%);bottom:-60px;right:10%;animation:diffuseFloat 16s ease-in-out infinite 2s;"></div>
     <nav style="padding:26px 60px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(190,138,106,0.16);">
       <span style="font-size:22px;color:${m.palette.text};letter-spacing:0.12em;text-transform:uppercase;">${H(m.brandName)}</span>
       <div style="display:flex;gap:30px;align-items:center;">

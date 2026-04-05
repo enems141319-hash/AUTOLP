@@ -238,6 +238,44 @@ const GLOBAL_KEYFRAMES = `
     0% { transform: translateX(-130%); }
     55%, 100% { transform: translateX(130%); }
   }
+  @keyframes diffuseFloat {
+    0%,100% { transform: scale(1)   translate(0px, 0px); }
+    33%      { transform: scale(1.07) translate(20px, -16px); }
+    66%      { transform: scale(0.95) translate(-16px, 14px); }
+  }
+  @keyframes lpBtnGlow {
+    0%,100% { box-shadow: 0 0 0px rgba(var(--lp-glow-rgb),0); }
+    50%      { box-shadow: 0 0 32px rgba(var(--lp-glow-rgb),0.55), 0 0 72px rgba(var(--lp-glow-rgb),0.22); }
+  }
+  @keyframes lpBtnSweep {
+    from { transform: translateX(-140%); }
+    to   { transform: translateX(140%); }
+  }
+  .lp-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  [data-lp-shell] button:not([data-no-glow]) {
+    position: relative;
+    overflow: hidden;
+    animation: lpBtnGlow 3.2s ease-in-out infinite;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+  [data-lp-shell] button:not([data-no-glow]):hover {
+    transform: translateY(-2px) !important;
+  }
+  [data-lp-shell] button:not([data-no-glow])::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.32) 50%, transparent 80%);
+    transform: translateX(-140%);
+    animation: lpBtnSweep 2.6s ease-in-out infinite;
+    pointer-events: none;
+  }
 </style>`;
 
 export function renderTemplate(m: LandingModel): string {

@@ -33,6 +33,12 @@ export function renderTech(m: LandingModel): string {
     }
   </style>
   <section class="lp-noise" style="background:${m.palette.bg};min-height:100vh;font-family:${m.font};position:relative;overflow:hidden;">
+
+    <!-- diffuse background orbs -->
+    <div class="lp-orb" style="width:600px;height:600px;background:radial-gradient(circle,${m.palette.primary}28 0%,transparent 70%);top:-160px;left:-140px;animation:diffuseFloat 14s ease-in-out infinite;"></div>
+    <div class="lp-orb" style="width:480px;height:480px;background:radial-gradient(circle,${m.palette.accent}22 0%,transparent 70%);top:60px;right:-100px;animation:diffuseFloat 18s ease-in-out infinite reverse;"></div>
+    <div class="lp-orb" style="width:400px;height:400px;background:radial-gradient(circle,${m.palette.primary}18 0%,transparent 70%);bottom:180px;left:28%;animation:diffuseFloat 22s ease-in-out infinite 4s;"></div>
+    <div class="lp-orb" style="width:340px;height:340px;background:radial-gradient(circle,${m.palette.accent}20 0%,transparent 70%);bottom:-60px;right:10%;animation:diffuseFloat 16s ease-in-out infinite 2s;"></div>
     <div class="aurora-a" style="width:360px;height:360px;left:-80px;top:80px;background:${m.palette.primary}55;"></div>
     <div class="aurora-b" style="width:300px;height:300px;right:-60px;top:140px;background:${m.palette.accent}55;"></div>
     <div class="grid-overlay" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);background-size:36px 36px;"></div>
