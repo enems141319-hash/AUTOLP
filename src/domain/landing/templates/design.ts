@@ -55,29 +55,36 @@ export function renderDesign(m: LandingModel): string {
     .design-noise-layer {
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
       pointer-events: none;
       z-index: 9999;
-      opacity: 0.038;
-      mix-blend-mode: screen;
-      filter: url(#design-noise-filter);
-      background: #fff;
+      opacity: 0.22;
+      mix-blend-mode: overlay;
     }
   </style>
 
-  <!-- SVG noise filter definition (invisible, zero size) -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="position:fixed;width:0;height:0;overflow:hidden;pointer-events:none;" aria-hidden="true">
-    <defs>
-      <filter id="design-noise-filter" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="linearRGB">
-        <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch" result="noise"/>
-        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
-        <feBlend in="SourceGraphic" in2="grayNoise" mode="screen"/>
-      </filter>
-    </defs>
-  </svg>
-  <!-- Noise overlay layer -->
-  <div class="design-noise-layer" aria-hidden="true"></div>
+  <!-- Canvas noise: generated at runtime, always visible -->
+  <canvas id="design-noise-canvas" class="design-noise-layer" aria-hidden="true"></canvas>
+  <script>
+    (function() {
+      var c = document.getElementById('design-noise-canvas');
+      if (!c) return;
+      var W = 256, H = 256;
+      c.width = W; c.height = H;
+      c.style.width = '100%'; c.style.height = '100%';
+      c.style.imageRendering = 'pixelated';
+      var ctx = c.getContext('2d');
+      var img = ctx.createImageData(W, H);
+      var d = img.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var v = Math.random() * 255 | 0;
+        d[i] = v; d[i+1] = v; d[i+2] = v; d[i+3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+      c.style.backgroundImage = 'url(' + c.toDataURL() + ')';
+      c.style.backgroundSize = '256px 256px';
+      c.width = 0; c.height = 0;
+    })();
+  </script>
 
   <section style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
     <nav style="padding:30px 58px;border-bottom:1px solid ${D.line};display:flex;align-items:center;justify-content:space-between;">
