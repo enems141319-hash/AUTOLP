@@ -1,4 +1,4 @@
-# AGENTS.md - AutoLP Agent Handbook
+ï»¿# AGENTS.md - AutoLP Agent Handbook
 
 ## What This Repo Does
 AutoLP generates standalone landing pages from a brand name.
@@ -20,6 +20,7 @@ src/
   store/                   Zustand UI state only
   tests/                   Vitest test suite
   utils/                   Hashing and sanitization helpers
+public/                    Static assets such as favicon
 ```
 
 ## Before Changing Anything
@@ -64,9 +65,9 @@ Chinese category intent:
 - `beverage`: tea, coffee, drinks, brewing
 
 Examples that must stay correct:
-- `¦n¦Y` -> `food`
-- `¦n³Ü¯ù¶¼` -> `beverage`
-- `¹©¤ý¤õÁç` -> `dining`
+- `å¥½åƒ` -> `food`
+- `å¥½å–èŒ¶é£²` -> `beverage`
+- `é¼ŽçŽ‹ç«é‹` -> `dining`
 
 Do not let obvious Chinese industry words fall through to hash fallback.
 
@@ -82,11 +83,17 @@ Each template:
 - must escape user-facing strings with `escapeHtml()`
 - should keep the brand name in the hero area
 
-Shared responsive behavior:
-- Mobile support is enforced globally in `src/domain/landing/templates/index.ts`
-- The registry wraps every template with a responsive shell
-- Prefer fixing broad mobile issues in that shared layer first
-- Only do category-specific mobile overrides when the shared layer is not enough
+Shared rendering responsibilities in `templates/index.ts`:
+- global mobile-responsive shell
+- shared three-image gallery
+- shared premium footer CTA block
+- category-specific footer copy map
+
+Current content direction:
+- Main commercial copy is centralized in `src/data/brandPresets.ts`
+- The latest rewrite makes hero copy, pain/solution blocks, feature bullets, quotes, and footer CTA more sales-focused and brand-specific
+- Keep copy concise, concrete, and commercially legible
+- Avoid generic filler claims and vague adjectives without a business outcome
 
 Current visual direction notes:
 - `design`: dark luxury studio, high whitespace, restrained typography, premium CTA glow
@@ -98,6 +105,20 @@ Current visual direction notes:
 - `engineering`: multiple industrial photos, stronger proof-of-work presentation
 - `dining`: more food photography, still cinematic and premium
 - `tech`: aura / grid / luminous CTA treatment
+
+## Image Rules
+
+Preset images live in:
+- `src/data/brandPresets.ts`
+
+Requirements:
+- every category must expose `hero`
+- every category should expose `secondary`
+- every category must expose `gallery` with at least 3 image URLs
+- image URLs must remain valid
+
+Current baseline:
+- 83 image URLs were validated successfully in the latest cleanup pass
 
 ## HTML Export Contract
 
@@ -146,6 +167,14 @@ Important:
 - Deployment must publish `./dist`
 - If the live site is loading `/src/main.tsx`, Pages is serving the repo root by mistake
 
+## Static Assets
+
+Current favicon:
+- `public/favicon.png`
+
+Head wiring:
+- `index.html` uses `/AUTOLP/favicon.png`
+
 ## Windows Auto Push
 
 Use:
@@ -167,4 +196,5 @@ This is the default push path for local manual updates.
 - Do not add a category in only one file.
 - Do not debug mobile layout by patching one template first when the shared responsive shell can solve it.
 - Do not treat the repo root `index.html` as the deployed artifact.
+- Do not forget to update shared footer CTA copy if the messaging direction changes.
 - Do not use PowerShell npm script execution if policy blocks it; use `cmd /c`.
