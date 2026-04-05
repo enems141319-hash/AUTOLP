@@ -16,11 +16,23 @@ export function renderDesign(m: LandingModel): string {
     accent: '#8A6A4B',
   };
 
+  const caseImages = [
+    'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1200&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=1200&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1200&auto=format&fit=crop&q=80',
+  ];
+
   const caseCards = m.features.map((feature, index) => `
-    <article style="background:${D.panel};border:1px solid ${D.line};padding:30px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:24px;">案例 0${index + 1}</div>
-      <p style="font-size:22px;line-height:1.5;color:${D.text};margin:0;font-weight:600;">${H(feature)}</p>
-      <div style="margin-top:28px;width:60px;height:1px;background:${D.primary};"></div>
+    <article style="background:${D.panel};border:1px solid ${D.line};display:flex;flex-direction:column;min-height:420px;overflow:hidden;">
+      <img src="${caseImages[index] ?? caseImages[caseImages.length - 1]}" alt="${H(m.brandName)} 案例 ${index + 1}" style="width:100%;height:240px;object-fit:cover;display:block;filter:brightness(0.84) saturate(0.9);" />
+      <div style="padding:28px 30px 30px;display:flex;flex-direction:column;justify-content:space-between;flex:1;">
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:22px;">案例 0${index + 1}</div>
+        <p style="font-size:22px;line-height:1.5;color:${D.text};margin:0;font-weight:600;">${H(feature)}</p>
+        <div style="margin-top:28px;width:60px;height:1px;background:${D.primary};"></div>
+      </div>
     </article>
   `).join('');
 
@@ -39,12 +51,11 @@ export function renderDesign(m: LandingModel): string {
       to   { transform: translateX(140%); }
     }
     @keyframes diffuseFloat {
-      0%,100% { transform: scale(1)   translate(0px, 0px); }
+      0%,100% { transform: scale(1) translate(0px, 0px); }
       33%      { transform: scale(1.06) translate(18px, -14px); }
       66%      { transform: scale(0.96) translate(-14px, 12px); }
     }
     .design-enter { animation: designFadeUp 0.9s ease both; }
-    /* buttons */
     .design-cta {
       position: relative;
       overflow: hidden;
@@ -63,7 +74,6 @@ export function renderDesign(m: LandingModel): string {
       transform: translateX(-140%);
       animation: borderSweep 2.8s ease-in-out infinite;
     }
-    /* diffuse orbs */
     .design-orb {
       position: absolute;
       border-radius: 50%;
@@ -86,8 +96,6 @@ export function renderDesign(m: LandingModel): string {
   </style>
 
   <section class="lp-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;overflow:hidden;">
-
-    <!-- diffuse background orbs -->
     <div class="design-orb" style="width:640px;height:640px;background:radial-gradient(circle,${D.primary}28 0%,transparent 70%);top:-180px;left:-160px;animation:diffuseFloat 14s ease-in-out infinite;"></div>
     <div class="design-orb" style="width:500px;height:500px;background:radial-gradient(circle,${D.accent}22 0%,transparent 70%);top:40px;right:-120px;animation:diffuseFloat 18s ease-in-out infinite reverse;"></div>
     <div class="design-orb" style="width:420px;height:420px;background:radial-gradient(circle,${D.primary}18 0%,transparent 70%);bottom:200px;left:30%;animation:diffuseFloat 22s ease-in-out infinite 4s;"></div>
@@ -182,4 +190,3 @@ export function renderDesign(m: LandingModel): string {
     </div>
   </section>`;
 }
-
