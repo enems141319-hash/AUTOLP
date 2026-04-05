@@ -19,8 +19,21 @@ export function renderDining(m: LandingModel): string {
     .dining-title { animation: diningHero 0.8s ease 0.35s both; }
     .dining-sub { animation: diningHero 0.8s ease 0.55s both; }
     .dining-cta { animation: diningHero 0.6s ease 0.75s both; }
+    .lp-noise { position: relative; }
+    .lp-noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.78;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+      mix-blend-mode: overlay;
+    }
   </style>
-  <section style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};">
+  <section class="lp-noise" style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};">
     <div style="position:relative;height:100vh;overflow:hidden;"><img src="${m.imgs.hero}" alt="dining" style="width:100%;height:100%;object-fit:cover;filter:brightness(0.5);" /><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,${m.palette.bg});"><nav style="padding:36px 60px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:24px;font-weight:400;color:#fff;letter-spacing:0.15em;text-transform:uppercase;">${H(m.brandName)}</span><div style="display:flex;gap:36px;align-items:center;"><a style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;">菜單</a><a style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;">主廚</a><a style="color:rgba(255,255,255,0.7);text-decoration:none;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;">訂位</a><button style="background:${m.palette.accent};color:${m.palette.bg};border:none;padding:12px 28px;font-size:13px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;font-family:${m.font};">${H(m.cta)}</button></div></nav><div style="position:absolute;bottom:120px;left:60px;max-width:680px;"><p class="dining-tag" style="font-size:12px;letter-spacing:0.25em;text-transform:uppercase;color:${m.palette.accent};margin:0 0 16px;">當季套餐 / 私密用餐 / 細緻服務</p><h1 class="dining-title" style="font-size:clamp(42px,5.5vw,80px);color:#fff;font-weight:400;margin:0 0 16px;line-height:1.05;"><span style="display:block;font-size:0.42em;color:rgba(255,255,255,0.5);font-weight:300;letter-spacing:0.06em;margin-bottom:8px;">${H(m.brandName)}</span>${H(m.tagline)}</h1><p class="dining-sub" style="font-size:17px;color:rgba(255,255,255,0.75);margin:0 0 40px;line-height:1.7;">${H(m.subheadline)}</p><div class="dining-cta" style="display:flex;gap:16px;"><button style="background:${m.palette.accent};color:${m.palette.bg};border:none;padding:16px 40px;font-size:15px;font-weight:700;cursor:pointer;font-family:${m.font};">${H(m.cta)}</button><button style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.4);padding:16px 40px;font-size:15px;cursor:pointer;font-family:${m.font};">查看菜單</button></div></div></div></div>
     <div style="max-width:1100px;margin:0 auto;padding:100px 60px;display:grid;grid-template-columns:2fr 3fr;gap:80px;align-items:start;"><div><p style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:${m.palette.accent};margin:0 0 20px;">餐廳故事</p><h2 style="font-size:38px;font-weight:400;color:${m.palette.text};margin:0;line-height:1.2;">${H(m.pain)}</h2></div><div><p style="font-size:18px;color:${m.palette.muted};line-height:1.9;margin:0 0 32px;">${H(m.solution)}</p><img src="${m.imgs.secondary ?? m.imgs.hero}" alt="chef" style="width:100%;height:320px;object-fit:cover;" /></div></div>
     <div style="max-width:1200px;margin:0 auto;padding:0 60px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">${foodImgs.map((img, i)=>`<img src="${img}" alt="dish ${i+1}" style="width:100%;height:240px;object-fit:cover;display:block;" />`).join('')}</div>

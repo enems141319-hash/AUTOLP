@@ -21,8 +21,21 @@ export function renderTravel(m: LandingModel): string {
     @keyframes travelTitleIn { from { opacity:0; transform: translateY(40px); } to { opacity:1; transform: translateY(0); } }
     .travel-hero-img { animation: kenBurns 18s ease-in-out infinite alternate; transform-origin: center center; }
     .travel-title { animation: travelTitleIn 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both; }
+    .lp-noise { position: relative; }
+    .lp-noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.78;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+      mix-blend-mode: overlay;
+    }
   </style>
-  <section style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};overflow:hidden;">
+  <section class="lp-noise" style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};overflow:hidden;">
     <div style="position:relative;height:95vh;overflow:hidden;"><div style="position:absolute;inset:0;overflow:hidden;"><img class="travel-hero-img" src="${m.imgs.hero}" alt="travel" style="width:100%;height:100%;object-fit:cover;" /></div><div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.72) 100%);"><nav style="padding:32px 60px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:24px;font-weight:700;color:#fff;">${H(m.brandName)}</span><div style="display:flex;gap:32px;align-items:center;"><a style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:14px;">精選旅程</a><a style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:14px;">目的地</a><a style="color:rgba(255,255,255,0.85);text-decoration:none;font-size:14px;">旅行故事</a><button style="background:${m.palette.accent};color:#fff;border:none;padding:10px 24px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;">${H(m.cta)}</button></div></nav><div class="travel-title" style="position:absolute;bottom:80px;left:60px;max-width:680px;"><p style="color:${m.palette.accent};font-size:13px;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 16px;">沉浸旅程 / 在地策展體驗</p><h1 style="font-size:clamp(36px,5.5vw,72px);color:#fff;font-weight:700;margin:0 0 20px;line-height:1.1;"><span style="font-size:0.55em;opacity:0.7;font-weight:500;display:block;letter-spacing:0.02em;">${H(m.brandName)}</span>${H(m.tagline)}</h1><p style="font-size:17px;color:rgba(255,255,255,0.85);margin:0 0 36px;line-height:1.6;">${H(m.subheadline)}</p><button style="background:${m.palette.accent};color:#fff;border:none;padding:14px 36px;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;">${H(m.cta)}</button></div></div></div>
     <div style="padding:80px 60px;background:${m.palette.primary};"><div style="max-width:1200px;margin:0 auto;"><div style="text-align:center;margin-bottom:48px;"><h2 style="font-size:32px;font-weight:700;color:#fff;margin:0 0 12px;">為什麼選擇我們</h2><p style="color:rgba(255,255,255,0.7);font-size:15px;">${H(m.pain)}</p></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;align-items:start;">${featureCards}</div></div></div>
     <div style="max-width:900px;margin:0 auto;padding:80px 60px;text-align:center;"><p style="font-size:20px;color:${m.palette.text};line-height:1.8;">${H(m.solution)}</p></div>

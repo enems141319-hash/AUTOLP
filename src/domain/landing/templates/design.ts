@@ -18,7 +18,7 @@ export function renderDesign(m: LandingModel): string {
 
   const caseCards = m.features.map((feature, index) => `
     <article style="background:${D.panel};border:1px solid ${D.line};padding:30px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;">
-      <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:24px;">Case 0${index + 1}</div>
+      <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:24px;">案例 0${index + 1}</div>
       <p style="font-size:22px;line-height:1.5;color:${D.text};margin:0;font-weight:600;">${H(feature)}</p>
       <div style="margin-top:28px;width:60px;height:1px;background:${D.primary};"></div>
     </article>
@@ -52,17 +52,14 @@ export function renderDesign(m: LandingModel): string {
       transform:translateX(-120%);
       animation:borderSweep 3.2s ease-in-out infinite;
     }
-    .design-noise {
-      position: relative;
-    }
-    .design-noise::before {
+    .lp-noise { position: relative; }
+    .lp-noise::before {
       content: '';
       position: absolute;
       inset: 0;
       pointer-events: none;
       z-index: 100;
-      opacity: 0.65;
-      border-radius: inherit;
+      opacity: 0.78;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-repeat: repeat;
       background-size: 180px 180px;
@@ -70,16 +67,16 @@ export function renderDesign(m: LandingModel): string {
     }
   </style>
 
-  <section class="design-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
+  <section class="lp-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
     <nav style="padding:30px 58px;border-bottom:1px solid ${D.line};display:flex;align-items:center;justify-content:space-between;">
       <div>
-        <div style="font-size:12px;letter-spacing:0.20em;text-transform:uppercase;color:${D.muted};margin-bottom:8px;">Creative Office</div>
+        <div style="font-size:12px;letter-spacing:0.20em;text-transform:uppercase;color:${D.muted};margin-bottom:8px;">設計工作室</div>
         <div style="font-size:20px;font-weight:700;color:${D.text};">${H(m.brandName)}</div>
       </div>
       <div style="display:flex;gap:28px;align-items:center;">
         <a style="font-size:13px;color:${D.muted};text-decoration:none;">作品案例</a>
         <a style="font-size:13px;color:${D.muted};text-decoration:none;">合作方式</a>
-        <a style="font-size:13px;color:${D.muted};text-decoration:none;">Reviews</a>
+        <a style="font-size:13px;color:${D.muted};text-decoration:none;">客戶評價</a>
         <button class="design-cta" style="background:${D.primary};color:#0B0B0C;border:none;padding:13px 24px;font-size:13px;font-weight:700;letter-spacing:0.06em;cursor:pointer;">${H(m.cta)}</button>
       </div>
     </nav>
@@ -94,7 +91,7 @@ export function renderDesign(m: LandingModel): string {
         <p style="font-size:18px;line-height:1.95;color:${D.muted};max-width:640px;margin:0 0 38px;">${H(m.subheadline)}</p>
         <div style="display:flex;gap:14px;align-items:center;">
           <button class="design-cta" style="background:${D.primary};color:#0B0B0C;border:none;padding:16px 30px;font-size:14px;font-weight:800;letter-spacing:0.06em;cursor:pointer;">${H(m.cta)}</button>
-          <span style="font-size:13px;color:${D.muted};letter-spacing:0.10em;text-transform:uppercase;">quiet luxury / editorial clarity</span>
+          <span style="font-size:13px;color:${D.muted};letter-spacing:0.10em;text-transform:uppercase;">克制美學 · 商業清晰度</span>
         </div>
       </div>
       <div class="design-enter" style="animation-delay:0.18s;">
@@ -107,16 +104,16 @@ export function renderDesign(m: LandingModel): string {
     <div style="padding:0 58px 78px;">
       <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px;">
         <div style="background:${D.panel};border:1px solid ${D.line};padding:30px;">
-          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">Strategic Tension</div>
+          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">核心挑戰</div>
           <p style="font-size:24px;line-height:1.55;color:${D.text};margin:0;font-weight:600;">${H(m.pain)}</p>
         </div>
         <div style="background:${D.panel};border:1px solid ${D.line};padding:30px;">
-          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">Deliverables</div>
-          <p style="font-size:18px;line-height:1.75;color:${D.text};margin:0;">Identity systems</p>
+          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">交付項目</div>
+          <p style="font-size:18px;line-height:1.75;color:${D.text};margin:0;">品牌識別系統</p>
         </div>
         <div style="background:${D.panel};border:1px solid ${D.line};padding:30px;">
-          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">Tone</div>
-          <p style="font-size:18px;line-height:1.75;color:${D.text};margin:0;">Premium and controlled</p>
+          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">調性定位</div>
+          <p style="font-size:18px;line-height:1.75;color:${D.text};margin:0;">高級，克制</p>
         </div>
       </div>
     </div>
@@ -124,7 +121,7 @@ export function renderDesign(m: LandingModel): string {
     <div style="padding:0 58px 78px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;">
       <div>
         <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">合作方式</div>
-        <h2 style="font-size:38px;line-height:1.16;color:${D.text};margin:0 0 20px;font-weight:700;">A quieter visual system with stronger commercial intent.</h2>
+        <h2 style="font-size:38px;line-height:1.16;color:${D.text};margin:0 0 20px;font-weight:700;">更克制的視覺語言，更強的商業轉換力。</h2>
         <p style="font-size:17px;line-height:1.92;color:${D.muted};margin:0;">${H(m.solution)}</p>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
@@ -136,10 +133,10 @@ export function renderDesign(m: LandingModel): string {
     <div style="padding:0 58px 78px;">
       <div style="display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:26px;">
         <div>
-          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">Selected Outcomes</div>
-          <h2 style="font-size:36px;line-height:1.12;color:${D.text};margin:0;font-weight:700;">System-led work with editorial restraint.</h2>
+          <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">精選成果</div>
+          <h2 style="font-size:36px;line-height:1.12;color:${D.text};margin:0;font-weight:700;">系統驅動的設計，編輯感的克制節奏。</h2>
         </div>
-        <div style="font-size:13px;color:${D.muted};letter-spacing:0.08em;text-transform:uppercase;">launch systems / brand structure / conversion polish</div>
+        <div style="font-size:13px;color:${D.muted};letter-spacing:0.08em;text-transform:uppercase;">品牌系統 · 視覺架構 · 轉換優化</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:18px;">
         ${caseCards}

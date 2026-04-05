@@ -18,8 +18,21 @@ export function renderTech(m: LandingModel): string {
     .grid-overlay { animation:gridPulse 4s ease-in-out infinite; }
     .tech-cta { position:relative; overflow:hidden; }
     .tech-cta::after { content:''; position:absolute; inset:0; background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.0) 40%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.0) 60%, transparent 100%); transform:translateX(-120%); animation:buttonSweep 2.6s ease-in-out infinite; }
+    .lp-noise { position: relative; }
+    .lp-noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.78;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+      mix-blend-mode: overlay;
+    }
   </style>
-  <section style="background:${m.palette.bg};min-height:100vh;font-family:${m.font};position:relative;overflow:hidden;">
+  <section class="lp-noise" style="background:${m.palette.bg};min-height:100vh;font-family:${m.font};position:relative;overflow:hidden;">
     <div class="aurora-a" style="width:360px;height:360px;left:-80px;top:80px;background:${m.palette.primary}55;"></div>
     <div class="aurora-b" style="width:300px;height:300px;right:-60px;top:140px;background:${m.palette.accent}55;"></div>
     <div class="grid-overlay" style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);background-size:36px 36px;"></div>

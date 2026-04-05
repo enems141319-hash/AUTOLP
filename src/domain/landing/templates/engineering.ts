@@ -21,8 +21,21 @@ export function renderEngineering(m: LandingModel): string {
     .eng-kpi:nth-child(2) { animation-delay:0.15s; }
     .eng-kpi:nth-child(3) { animation-delay:0.3s; }
     .eng-title { animation: engSlide 0.7s ease both; }
+    .lp-noise { position: relative; }
+    .lp-noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.78;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+      mix-blend-mode: overlay;
+    }
   </style>
-  <section style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
+  <section class="lp-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
     <nav style="background:${D.surface};border-bottom:2px solid ${D.primary};padding:0 60px;"><div style="max-width:1300px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:6px;height:32px;background:${D.primary};"></div><span style="font-size:17px;font-weight:700;color:${D.text};letter-spacing:0.06em;">${H(m.brandName).toUpperCase()}</span></div><div style="display:flex;gap:32px;align-items:center;"><a style="color:${D.muted};text-decoration:none;font-size:13px;letter-spacing:0.04em;">設備現場</a><a style="color:${D.muted};text-decoration:none;font-size:13px;letter-spacing:0.04em;">整合能力</a><a style="color:${D.muted};text-decoration:none;font-size:13px;letter-spacing:0.04em;">實績案例</a><button style="background:${D.primary};color:#fff;border:none;padding:10px 24px;font-size:13px;cursor:pointer;font-weight:700;letter-spacing:0.04em;">${H(m.cta)}</button></div></div></nav>
     <div style="max-width:1300px;margin:0 auto;padding:80px 60px;display:grid;grid-template-columns:5fr 4fr;gap:60px;align-items:center;"><div><div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;"><div style="height:1px;width:36px;background:${D.accent};"></div><span style="font-size:11px;color:${D.accent};letter-spacing:0.18em;text-transform:uppercase;">精密加工 · ISO 9001 認證 · 準時交付</span></div><h1 class="eng-title" style="font-size:clamp(28px,3vw,48px);font-weight:700;color:${D.text};margin:0 0 16px;line-height:1.1;"><span style="color:${D.primary};display:block;font-size:0.62em;font-weight:500;margin-bottom:8px;letter-spacing:0.06em;">${H(m.brandName)}</span>${H(m.tagline)}</h1><p style="font-size:16px;color:${D.muted};line-height:1.75;margin:0 0 40px;">${H(m.subheadline)}</p><div style="display:flex;gap:16px;"><button style="background:${D.primary};color:#fff;border:none;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;">${H(m.cta)}</button><button style="background:transparent;color:${D.text};border:1px solid ${D.border};padding:14px 28px;font-size:15px;cursor:pointer;font-family:inherit;">查看廠區</button></div><div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border:1px solid ${D.border};">${kpis.map(([v,l],i)=>`<div class="eng-kpi" style="padding:20px 24px;border-right:${i<2?`1px solid ${D.border}`:'none'};"><div style="font-size:26px;font-weight:700;color:${D.accent};">${v}</div><div style="font-size:11px;color:${D.muted};margin-top:4px;letter-spacing:0.06em;">${l}</div></div>`).join('')}</div></div><div><img src="${gallery[0]}" alt="engineering" style="width:100%;height:460px;object-fit:cover;display:block;filter:brightness(0.8);" /><div style="background:${D.accent};padding:14px 24px;display:flex;justify-content:space-between;"><span style="font-size:13px;font-weight:700;color:#000;">精密製造 / 加工整合 / 品質檢測</span><span style="font-size:13px;color:#000;opacity:0.6;">自 1984 起</span></div></div></div>
     <div style="max-width:1300px;margin:0 auto;padding:0 60px 70px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">${gallery.map((img, index)=>`<img src="${img}" alt="plant ${index+1}" style="width:100%;height:220px;object-fit:cover;border:1px solid ${D.border};display:block;" />`).join('')}</div>

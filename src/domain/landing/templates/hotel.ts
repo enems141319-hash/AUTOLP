@@ -12,7 +12,23 @@ export function renderHotel(m: LandingModel): string {
   `).join('');
 
   return `
-  <section style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};">
+  <style>
+    .lp-noise { position: relative; }
+    .lp-noise::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.78;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+      mix-blend-mode: overlay;
+    }
+  </style>
+
+  <section class="lp-noise" style="background:${m.palette.bg};font-family:${m.font};color:${m.palette.text};">
     <div style="position:relative;min-height:92vh;overflow:hidden;">
       <img src="${m.imgs.hero}" alt="${H(m.brandName)} 旅宿主視覺" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" />
       <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.16),rgba(0,0,0,0.62));"></div>
