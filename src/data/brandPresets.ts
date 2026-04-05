@@ -234,7 +234,7 @@ export const PRESETS: Record<CategoryId, CategoryPreset> = {
     emoji: '🎨',
     industry: '設計 / 創意',
     font: "'DM Sans', sans-serif",
-    tagline: '從策略到執行，讓品牌視覺成為競爭優勢。',
+    tagline: '優勢設計，解決問題。',
     subheadline: '我們是一間品牌設計工作室，專注於商業識別、數位視覺與設計系統，幫助有野心的品牌建立清晰且一致的市場形象。',
     cta: '預約策略會議',
     pain: '很多品牌不是沒有設計，而是設計太分散——logo 一個風格、社群另一套、官網又是別的樣子，形象無法累積。',
