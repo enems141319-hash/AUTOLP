@@ -52,7 +52,32 @@ export function renderDesign(m: LandingModel): string {
       transform:translateX(-120%);
       animation:borderSweep 3.2s ease-in-out infinite;
     }
+    .design-noise-layer {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.038;
+      mix-blend-mode: screen;
+      filter: url(#design-noise-filter);
+      background: #fff;
+    }
   </style>
+
+  <!-- SVG noise filter definition (invisible, zero size) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:fixed;width:0;height:0;overflow:hidden;pointer-events:none;" aria-hidden="true">
+    <defs>
+      <filter id="design-noise-filter" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="linearRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch" result="noise"/>
+        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+        <feBlend in="SourceGraphic" in2="grayNoise" mode="screen"/>
+      </filter>
+    </defs>
+  </svg>
+  <!-- Noise overlay layer -->
+  <div class="design-noise-layer" aria-hidden="true"></div>
 
   <section style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
     <nav style="padding:30px 58px;border-bottom:1px solid ${D.line};display:flex;align-items:center;justify-content:space-between;">
