@@ -31,26 +31,44 @@ export function renderDesign(m: LandingModel): string {
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes ctaGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(196,164,132,0.0), inset 0 0 0 rgba(255,255,255,0.0); }
-      50% { box-shadow: 0 14px 40px rgba(196,164,132,0.22), inset 0 0 30px rgba(255,255,255,0.06); }
+      0%, 100% { box-shadow: 0 0 18px rgba(196,164,132,0.0), 0 0 0px rgba(196,164,132,0.0); }
+      50%       { box-shadow: 0 0 38px rgba(196,164,132,0.55), 0 0 80px rgba(196,164,132,0.22); }
     }
     @keyframes borderSweep {
-      from { transform: translateX(-120%); }
-      to { transform: translateX(120%); }
+      from { transform: translateX(-140%); }
+      to   { transform: translateX(140%); }
+    }
+    @keyframes diffuseFloat {
+      0%,100% { transform: scale(1)   translate(0px, 0px); }
+      33%      { transform: scale(1.06) translate(18px, -14px); }
+      66%      { transform: scale(0.96) translate(-14px, 12px); }
     }
     .design-enter { animation: designFadeUp 0.9s ease both; }
+    /* buttons */
     .design-cta {
       position: relative;
       overflow: hidden;
-      animation: ctaGlow 3.4s ease-in-out infinite;
+      animation: ctaGlow 3s ease-in-out infinite;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .design-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 52px rgba(196,164,132,0.7), 0 0 110px rgba(196,164,132,0.28) !important;
     }
     .design-cta::after {
-      content:'';
-      position:absolute;
-      inset:-1px;
-      background:linear-gradient(120deg,transparent 0%, rgba(255,255,255,0.0) 35%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.0) 65%, transparent 100%);
-      transform:translateX(-120%);
-      animation:borderSweep 3.2s ease-in-out infinite;
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.38) 50%, transparent 80%);
+      transform: translateX(-140%);
+      animation: borderSweep 2.8s ease-in-out infinite;
+    }
+    /* diffuse orbs */
+    .design-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
     }
     .lp-noise { position: relative; }
     .lp-noise::before {
@@ -67,8 +85,15 @@ export function renderDesign(m: LandingModel): string {
     }
   </style>
 
-  <section class="lp-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
-    <nav style="padding:30px 58px;border-bottom:1px solid ${D.line};display:flex;align-items:center;justify-content:space-between;">
+  <section class="lp-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;overflow:hidden;">
+
+    <!-- diffuse background orbs -->
+    <div class="design-orb" style="width:640px;height:640px;background:radial-gradient(circle,${D.primary}28 0%,transparent 70%);top:-180px;left:-160px;animation:diffuseFloat 14s ease-in-out infinite;"></div>
+    <div class="design-orb" style="width:500px;height:500px;background:radial-gradient(circle,${D.accent}22 0%,transparent 70%);top:40px;right:-120px;animation:diffuseFloat 18s ease-in-out infinite reverse;"></div>
+    <div class="design-orb" style="width:420px;height:420px;background:radial-gradient(circle,${D.primary}18 0%,transparent 70%);bottom:200px;left:30%;animation:diffuseFloat 22s ease-in-out infinite 4s;"></div>
+    <div class="design-orb" style="width:360px;height:360px;background:radial-gradient(circle,${D.accent}20 0%,transparent 70%);bottom:-80px;right:8%;animation:diffuseFloat 16s ease-in-out infinite 2s;"></div>
+
+    <nav style="position:relative;z-index:1;padding:30px 58px;border-bottom:1px solid ${D.line};display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);background:${D.bg}90;">
       <div>
         <div style="font-size:12px;letter-spacing:0.20em;text-transform:uppercase;color:${D.muted};margin-bottom:8px;">設計工作室</div>
         <div style="font-size:20px;font-weight:700;color:${D.text};">${H(m.brandName)}</div>
@@ -81,7 +106,7 @@ export function renderDesign(m: LandingModel): string {
       </div>
     </nav>
 
-    <div style="padding:84px 58px 54px;display:grid;grid-template-columns:7fr 5fr;gap:56px;align-items:end;">
+    <div style="position:relative;z-index:1;padding:84px 58px 54px;display:grid;grid-template-columns:7fr 5fr;gap:56px;align-items:end;">
       <div class="design-enter">
         <div style="font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:${D.primary};margin-bottom:20px;">品牌方向 / 數位系統 / 高意圖轉換頁</div>
         <h1 style="font-size:clamp(48px,7vw,102px);line-height:0.96;margin:0;color:${D.text};font-weight:800;max-width:860px;">
@@ -101,7 +126,7 @@ export function renderDesign(m: LandingModel): string {
       </div>
     </div>
 
-    <div style="padding:0 58px 78px;">
+    <div style="position:relative;z-index:1;padding:0 58px 78px;">
       <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px;">
         <div style="background:${D.panel};border:1px solid ${D.line};padding:30px;">
           <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">核心挑戰</div>
@@ -118,7 +143,7 @@ export function renderDesign(m: LandingModel): string {
       </div>
     </div>
 
-    <div style="padding:0 58px 78px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;">
+    <div style="position:relative;z-index:1;padding:0 58px 78px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;">
       <div>
         <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">合作方式</div>
         <h2 style="font-size:38px;line-height:1.16;color:${D.text};margin:0 0 20px;font-weight:700;">更克制的視覺語言，更強的商業轉換力。</h2>
@@ -130,7 +155,7 @@ export function renderDesign(m: LandingModel): string {
       </div>
     </div>
 
-    <div style="padding:0 58px 78px;">
+    <div style="position:relative;z-index:1;padding:0 58px 78px;">
       <div style="display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:26px;">
         <div>
           <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:14px;">精選成果</div>
@@ -143,12 +168,12 @@ export function renderDesign(m: LandingModel): string {
       </div>
     </div>
 
-    <div style="padding:0 58px 90px;">
+    <div style="position:relative;z-index:1;padding:0 58px 90px;">
       <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:18px;">合作回饋</div>
       ${renderReviewCards(m, { theme: 'design', columns: 2 })}
     </div>
 
-    <div style="margin:0 58px;background:${D.panel};border:1px solid ${D.line};padding:42px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
+    <div style="position:relative;z-index:1;margin:0 58px;background:${D.panel};border:1px solid ${D.line};padding:42px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
       <div>
         <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${D.muted};margin-bottom:10px;">${H(m.brandName)}</div>
         <h2 style="font-size:clamp(28px,4vw,54px);line-height:1.04;color:${D.text};margin:0;font-weight:800;">${H(m.cta)}</h2>
