@@ -10,17 +10,11 @@ interface Props {
 export function StyleSelector({ value, onChange }: Props) {
   return (
     <div>
-      <p style={{
-        fontSize: 12, fontWeight: 600,
-        color: 'rgba(255,255,255,0.25)',
-        letterSpacing: '0.1em', textTransform: 'uppercase',
-        marginBottom: 10, margin: '0 0 10px',
-      }}>
-        類目 / 風格
-      </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+      <p className="panel-label">Style Override</p>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {STYLE_OPTIONS.map((opt) => {
           const selected = opt.value === value;
+
           return (
             <button
               key={opt.value}
@@ -29,34 +23,35 @@ export function StyleSelector({ value, onChange }: Props) {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 5,
-                padding: '6px 13px',
-                borderRadius: 20,
+                gap: 6,
+                padding: '9px 13px',
+                borderRadius: 999,
                 border: selected
-                  ? '1.5px solid #FF4D2E'
+                  ? '1px solid rgba(255,77,46,0.55)'
                   : '1px solid rgba(255,255,255,0.1)',
                 background: selected
-                  ? 'rgba(255,77,46,0.12)'
-                  : 'rgba(255,255,255,0.04)',
-                color: selected
-                  ? '#FF4D2E'
-                  : 'rgba(255,255,255,0.5)',
+                  ? 'linear-gradient(180deg, rgba(255,77,46,0.18), rgba(255,255,255,0.08))'
+                  : 'rgba(255,255,255,0.03)',
+                color: selected ? 'var(--color-bone)' : 'var(--color-text-muted)',
                 fontSize: 12,
-                fontWeight: selected ? 600 : 400,
+                fontWeight: selected ? 700 : 500,
                 cursor: 'pointer',
                 fontFamily: 'inherit',
                 transition: 'all 0.15s',
+                boxShadow: selected ? '0 0 24px rgba(255,77,46,0.14)' : 'none',
               }}
-              onMouseEnter={e => {
+              onMouseEnter={(event) => {
                 if (!selected) {
-                  e.currentTarget.style.borderColor = 'rgba(255,77,46,0.35)';
-                  e.currentTarget.style.color = 'rgba(255,255,255,0.8)';
+                  event.currentTarget.style.borderColor = 'rgba(255,77,46,0.35)';
+                  event.currentTarget.style.color = 'rgba(255,255,255,0.92)';
+                  event.currentTarget.style.transform = 'translateY(-1px)';
                 }
               }}
-              onMouseLeave={e => {
+              onMouseLeave={(event) => {
                 if (!selected) {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                  e.currentTarget.style.color = 'rgba(255,255,255,0.5)';
+                  event.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                  event.currentTarget.style.color = 'var(--color-text-muted)';
+                  event.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >

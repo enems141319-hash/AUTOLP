@@ -82,7 +82,7 @@ const GLOBAL_RESPONSIVE_CSS = `
       justify-content: flex-start !important;
     }
 
-    [data-lp-shell] [style*="display:grid"][style*="grid-template-columns"] {
+    [data-lp-shell] [style*="display:grid"][style*="grid-template-columns"]:not(.tech-solution-card-grid):not(.beauty-feature-grid) {
       grid-template-columns: 1fr !important;
     }
 
@@ -184,17 +184,46 @@ const GLOBAL_RESPONSIVE_CSS = `
 function renderSharedGallery(m: LandingModel): string {
   const images = (m.imgs.gallery ?? []).slice(0, 3);
   if (images.length < 3) return '';
+  const headlines = buildNewsHeadlines(m);
+  const dates = ['2026.04.05', '2026.04.02', '2026.03.28'];
 
   return `
     <section style="padding:0 20px 40px;background:${m.palette.bg};">
       <div style="max-width:1200px;margin:0 auto;border-top:1px solid ${m.palette.muted}26;padding-top:28px;">
-        <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:${m.palette.accent};margin-bottom:16px;">品牌視覺延伸</div>
+        <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px;background:linear-gradient(135deg,${m.palette.primary},${m.palette.accent},${m.palette.primary});background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;">最新消息</div>
         <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;">
-          ${images.map((src, index) => `<img src="${escapeHtml(src)}" alt="${escapeHtml(m.brandName)} 視覺 ${index + 1}" style="width:100%;height:260px;object-fit:cover;border-radius:20px;display:block;" />`).join('')}
+          ${images.map((src, index) => `
+            <article style="background:${m.palette.surface};border-radius:20px;overflow:hidden;border:1px solid ${m.palette.muted}18;">
+              <img src="${escapeHtml(src)}" alt="${escapeHtml(m.brandName)} 最新消息 ${index + 1}" style="width:100%;height:260px;object-fit:cover;display:block;" />
+              <div style="padding:18px 18px 20px;">
+                <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:${m.palette.accent};margin-bottom:10px;">${dates[index] ?? '2026.04.05'}</div>
+                <h3 style="margin:0;color:${m.palette.text};font-size:20px;line-height:1.45;font-weight:700;">${escapeHtml(headlines[index] ?? m.tagline)}</h3>
+              </div>
+            </article>
+          `).join('')}
         </div>
       </div>
     </section>
   `;
+}
+
+function buildNewsHeadlines(m: LandingModel): string[] {
+  const focus = shortenHeadline(m.features[0] ?? m.tagline);
+  const market = shortenHeadline(m.solution);
+  const momentum = shortenHeadline(m.subheadline);
+
+  return [
+    `${m.brandName} 推出新一輪品牌內容升級，主打 ${focus}`,
+    `${m.brandName} 以 ${market} 回應當前市場需求`,
+    `${m.brandName} 最新動向：${momentum}`,
+  ];
+}
+
+function shortenHeadline(text: string, max = 18): string {
+  const normalized = text.replace(/[，。、「」『』！!？?：:；;（）()\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!normalized) return '新一輪品牌策略';
+  if (normalized.length <= max) return normalized;
+  return `${normalized.slice(0, max).trim()}...`;
 }
 
 function renderSharedFooterCta(m: LandingModel): string {
@@ -264,6 +293,9 @@ const GLOBAL_KEYFRAMES = `
     animation: lpBtnPulse 3s ease-in-out infinite;
     transition: transform 0.18s ease, filter 0.18s ease !important;
   }
+  [data-lp-shell] button:not([style*="border-radius:999px"]) {
+    border-radius: 10px !important;
+  }
   [data-lp-shell] button:not([data-no-glow]):hover {
     transform: translateY(-3px) scale(1.03) !important;
     filter: brightness(1.14) drop-shadow(0 0 18px rgba(255,255,255,0.55)) drop-shadow(0 0 40px rgba(255,255,255,0.25)) !important;
@@ -284,4 +316,3 @@ export function renderTemplate(m: LandingModel): string {
   const renderer = TEMPLATE_REGISTRY[m.category];
   return `${GLOBAL_RESPONSIVE_CSS}${GLOBAL_KEYFRAMES}<div data-lp-shell data-category="${m.category}">${renderer(m)}${renderSharedGallery(m)}${renderSharedFooterCta(m)}</div>`;
 }
-

@@ -2,7 +2,7 @@
 
 const IMGS: Record<CategoryId, CategoryPreset['imgs']> = {
   tech: {
-    hero: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&auto=format&fit=crop&q=80',
+    hero: 'https://unsplash.com/photos/tmTidmpILWw/download?force=true',
     secondary: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&auto=format&fit=crop&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&auto=format&fit=crop&q=80',
@@ -11,7 +11,7 @@ const IMGS: Record<CategoryId, CategoryPreset['imgs']> = {
     ],
   },
   beauty: {
-    hero: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&auto=format&fit=crop&q=80',
+    hero: 'https://images.unsplash.com/photo-1512207724313-a4e675ec79ab?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     secondary: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&auto=format&fit=crop&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1200&auto=format&fit=crop&q=80',
@@ -110,7 +110,7 @@ const IMGS: Record<CategoryId, CategoryPreset['imgs']> = {
     ],
   },
   finance: {
-    hero: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1600&auto=format&fit=crop&q=80',
+    hero: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     secondary: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200&auto=format&fit=crop&q=80',
@@ -144,10 +144,10 @@ export const PRESETS: Record<CategoryId, CategoryPreset> = {
     emoji: '⚡',
     industry: '科技 / SaaS',
     font: "'Inter', sans-serif",
-    tagline: '自動化重複工作，聚焦真正重要的事。',
+    tagline: '自動化重複工作 聚焦到真正目標',
     subheadline: '整合協作、自動化與資料洞察於單一平台，幫助快速成長的團隊從執行混亂走向清晰系統，交付週期快 40%。',
     cta: '免費開始使用',
-    pain: '當團隊不斷擴大，工具卻還在各自分散運作，效率損耗往往不是人的問題，而是系統沒有跟上節奏。',
+    pain: '當團隊不斷擴大，工具卻還在各自分散運作，效率損耗往往不是人的問題，而是系統沒有跟上節奏。資訊散在不同平台、流程仍仰賴手動補位，結果就是溝通成本上升，決策速度越來越慢。',
     solution: '一個整合所有工作流的平台，讓任務、資料與溝通回歸同一個地方，讓每個人都清楚知道該做什麼、做到什麼程度。',
     features: ['任務與專案統一管理', '自動化流程設定', '即時數據儀表板', '跨工具 API 整合', '細粒度權限控管', '99.99% 服務穩定性'],
     quotes: [
@@ -165,7 +165,7 @@ export const PRESETS: Record<CategoryId, CategoryPreset> = {
     tagline: '科研配方，看得見的肌膚改變。',
     subheadline: '結合皮膚科學與植萃精華，每一支產品均通過嚴格臨床驗證，給肌膚真正需要的修護，而不是層層堆疊的承諾。',
     cta: '探索保養系列',
-    pain: '市面上的保養品承諾太多，成分卻太雜——肌膚敏感、難以吸收、換了一瓶又一瓶，根本問題始終沒有被解決。',
+    pain: '保養品選擇太多，成分太雜，換了很多瓶，肌膚問題還是沒解決。',
     solution: '我們從皮膚科學出發，針對核心肌膚問題開發高濃度精華配方，讓每個步驟都有明確功效，不堆疊，不浪費。',
     features: ['高濃度玻尿酸複合保濕', 'A醇重塑晚霜系列', '抗氧化 VC 淡斑精華', '無防腐劑敏感肌安心配方', '皮膚科醫師共同研發', '臨床測試 94% 有感改善'],
     quotes: [
@@ -363,7 +363,7 @@ export const PRESETS: Record<CategoryId, CategoryPreset> = {
     tagline: '讓資產在你睡覺時也持續增長。',
     subheadline: '專注多元資產配置，服務資產 500 萬以上的高資產客戶，由 CFA 認證顧問全程主責，透明收費無隱藏佣金。',
     cta: '預約資產健檢',
-    pain: '很多人累積了一定資產，卻因對市場不熟悉或沒時間管理，讓資金停留在收益太低的地方，時間悄悄侵蝕財富。',
+    pain: '資產放著不動，報酬太低，時間只會讓你錯過更多機會。',
     solution: '我們以長期視角制定個人化配置策略，每季定期回顧並主動告知調整理由，讓你在充分理解的狀態下做每一個決策。',
     features: ['個人化資產配置策略', '股票/債券/實物資產跨類別', 'CFA 認證顧問全程主責', '季度績效報告透明揭露', '無佣金結構只收顧問費', '優先投資機會提前通知'],
     quotes: [

@@ -4,37 +4,63 @@ import { exportHtml } from '../../domain/landing/exportHtml';
 import { renderTemplate } from '../../domain/landing/templates/index';
 import { Toolbar } from '../ui/Toolbar';
 import { STYLE_OPTIONS } from '../../data/styleOptions';
+import { analyzeBrand } from '../../domain/brand-analysis/analyzeBrand';
+import { buildLandingModel } from '../../domain/landing/buildLandingModel';
+
+type HotModuleApi = {
+  accept: (cb?: () => void) => void;
+  on: (event: string, cb: () => void) => void;
+  off: (event: string, cb: () => void) => void;
+};
 
 export function ResultScreen() {
-  const { landingModel, analysisResult, reset } = useGeneratorStore();
+  const { brandName, selectedStyle, landingModel, reset } = useGeneratorStore();
 
-  if (!landingModel || !analysisResult) return null;
+  if (!landingModel) return null;
 
-  const styleMeta = STYLE_OPTIONS.find((o) => o.value === landingModel.category);
+  // Recompute from current source data so template/preset edits show up immediately in dev.
+  const liveAnalysis = analyzeBrand(brandName || landingModel.brandName, selectedStyle);
+  const liveModel = buildLandingModel(liveAnalysis);
+  const styleMeta = STYLE_OPTIONS.find((option) => option.value === liveModel.category);
+  const [renderNonce, setRenderNonce] = React.useState(0);
+
+  React.useEffect(() => {
+    setRenderNonce((value) => value + 1);
+  }, []);
+
+  React.useEffect(() => {
+    const hot = (import.meta as ImportMeta & { hot?: HotModuleApi }).hot;
+    if (!hot) return;
+    const rerender = () => setRenderNonce((value) => value + 1);
+    hot.accept(() => rerender());
+    hot.on('vite:afterUpdate', rerender);
+    return () => {
+      hot.off('vite:afterUpdate', rerender);
+    };
+  }, []);
 
   function handleExport() {
-    const html = exportHtml(landingModel!);
+    const html = exportHtml(liveModel);
     const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${landingModel!.brandName.replace(/\s+/g, '-')}-landing.html`;
-    a.click();
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${liveModel.brandName.replace(/\s+/g, '-')}-landing.html`;
+    link.click();
     URL.revokeObjectURL(url);
   }
 
-  const innerHtml = renderTemplate(landingModel);
+  const innerHtml = renderTemplate(liveModel);
 
   return (
     <div style={{ fontFamily: "'Inter', sans-serif" }}>
       <Toolbar
-        brandName={landingModel.brandName}
-        category={`${styleMeta?.emoji ?? ''} ${styleMeta?.label ?? landingModel.category}`}
+        brandName={liveModel.brandName}
+        category={`${styleMeta?.emoji ?? ''} ${styleMeta?.label ?? liveModel.category}`}
         onBack={reset}
         onExport={handleExport}
       />
 
-      {/* Analysis badge */}
       <div
         style={{
           position: 'fixed',
@@ -53,17 +79,17 @@ export function ResultScreen() {
         <p style={{ margin: '0 0 4px', color: '#94A3B8' }}>分析結果</p>
         <p style={{ margin: '0 0 2px', fontWeight: 600 }}>
           {styleMeta?.emoji} {styleMeta?.label}
-          {analysisResult.overridden && (
-            <span style={{ color: '#F59E0B', marginLeft: 8, fontWeight: 400 }}>手動</span>
+          {liveAnalysis.overridden && (
+            <span style={{ color: '#F59E0B', marginLeft: 8, fontWeight: 400 }}>手動指定</span>
           )}
         </p>
-        {!analysisResult.overridden && (
-          <p style={{ margin: 0, color: '#64748B' }}>信心度 {analysisResult.confidence}%</p>
+        {!liveAnalysis.overridden && (
+          <p style={{ margin: 0, color: '#64748B' }}>信心分數 {liveAnalysis.confidence}%</p>
         )}
       </div>
 
-      {/* Preview — rendered in a sandboxed iframe-like container */}
       <div
+        key={renderNonce}
         style={{ marginTop: 57, position: 'relative' }}
         dangerouslySetInnerHTML={{ __html: innerHtml }}
       />

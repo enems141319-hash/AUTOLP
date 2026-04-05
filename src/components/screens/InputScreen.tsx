@@ -1,34 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGeneratorStore } from '../../store/useGeneratorStore';
 import { analyzeBrand } from '../../domain/brand-analysis/analyzeBrand';
 import { buildLandingModel } from '../../domain/landing/buildLandingModel';
 import { StyleSelector } from '../ui/StyleSelector';
 import { sanitizeName } from '../../utils/sanitize';
-
-const C = {
-  obsidian: '#050505',
-  bone: '#F2F2F2',
-  accent: '#EBEBEB',
-  primary: '#FF4D2E',
-  surface: '#F3F4F4',
-  muted: 'rgba(255,255,255,0.6)',
-  mutedDark: 'rgba(255,255,255,0.25)',
-};
+import { MagneticButton } from '../ui/MagneticButton';
 
 const SAMPLES = ['SteelForge', 'Lumina Skin', 'Brewed Kind', 'LexGroup', 'Nomad Trails', 'FinPath'];
+
+const metrics = [
+  ['15', 'Industry Templates'],
+  ['3D', 'Hero Motion Layers'],
+  ['3s', 'Generation Trigger'],
+];
 
 export function InputScreen() {
   const { brandName, selectedStyle, setBrandName, setSelectedStyle, setScreen, setResults } =
     useGeneratorStore();
   const [error, setError] = useState('');
-  const [focused, setFocused] = useState(false);
+  const [isCompact, setIsCompact] = useState(() => window.innerWidth < 1100);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsCompact(window.innerWidth < 1100);
+      setIsMobile(window.innerWidth < 640);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   function handleGenerate() {
     const clean = sanitizeName(brandName);
     if (!clean) {
-      setError('請輸入品牌名稱');
+      setError('請先輸入品牌名稱。');
       return;
     }
+
     setError('');
     setScreen('loading');
 
@@ -41,176 +50,177 @@ export function InputScreen() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: C.obsidian,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '40px 24px',
-        fontFamily: "'Inter', sans-serif",
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Subtle background texture */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,77,46,0.06) 0%, transparent 70%)',
-      }} />
-
-      {/* Top label */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 8,
-        marginBottom: 48, opacity: 0.5,
-      }}>
-        <div style={{ width: 20, height: 1, background: C.bone }} />
-        <span style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: C.bone }}>
-          Brand Landing Generator
-        </span>
-        <div style={{ width: 20, height: 1, background: C.bone }} />
-      </div>
-
-      {/* Main card */}
-      <div style={{
-        width: '100%',
-        maxWidth: 640,
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        {/* Heading */}
-        <div style={{ marginBottom: 40 }}>
-          <h1 style={{
-            fontSize: 'clamp(32px, 5vw, 52px)',
-            fontWeight: 800,
-            color: C.bone,
-            margin: '0 0 14px',
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-          }}>
-            輸入品牌名稱<br />
-            <span style={{ color: C.primary }}>即刻生成官網</span>
-          </h1>
-          <p style={{ fontSize: 15, color: C.muted, margin: 0, lineHeight: 1.6 }}>
-            AI 自動分析品牌屬性，選擇最適合的版型與視覺語言
-          </p>
-        </div>
-
-        {/* Brand name input */}
-        <div style={{ marginBottom: 24 }}>
-          <label style={{
-            display: 'block', fontSize: 12, fontWeight: 600,
-            color: C.mutedDark, letterSpacing: '0.1em',
-            textTransform: 'uppercase', marginBottom: 10,
-          }}>
-            品牌名稱
-          </label>
-          <div style={{ position: 'relative' }}>
-            <input
-              value={brandName}
-              onChange={(e) => { setBrandName(e.target.value); setError(''); }}
-              onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              placeholder="例如：Lumina、SteelForge、Brewed Kind..."
-              style={{
-                width: '100%',
-                padding: '16px 20px',
-                fontSize: 16,
-                background: 'rgba(255,255,255,0.05)',
-                border: `1.5px solid ${focused ? C.primary : 'rgba(255,255,255,0.1)'}`,
-                borderRadius: 10,
-                color: C.bone,
-                outline: 'none',
-                fontFamily: 'inherit',
-                transition: 'border-color 0.2s',
-                boxSizing: 'border-box',
-              }}
-            />
-          </div>
-          {error && (
-            <p style={{ color: C.primary, fontSize: 12, margin: '8px 0 0', opacity: 0.9 }}>{error}</p>
-          )}
-        </div>
-
-        {/* Style selector */}
-        <div style={{ marginBottom: 32 }}>
-          <StyleSelector value={selectedStyle} onChange={setSelectedStyle} />
-        </div>
-
-        {/* CTA button */}
-        <button
-          onClick={handleGenerate}
+    <div className="autolp-shell">
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          width: '100%',
+          maxWidth: 1320,
+          margin: '0 auto',
+          minHeight: '100vh',
+          padding: '36px 22px 30px',
+          display: 'grid',
+          alignItems: 'center',
+        }}
+      >
+        <div
           style={{
-            width: '100%',
-            padding: '16px',
-            background: C.primary,
-            color: '#fff',
-            border: 'none',
-            borderRadius: 10,
-            fontSize: 16,
-            fontWeight: 700,
-            cursor: 'pointer',
-            fontFamily: 'inherit',
-            letterSpacing: '0.01em',
-            transition: 'opacity 0.15s',
+            display: 'grid',
+            gap: 28,
+            gridTemplateColumns: isCompact ? '1fr' : 'minmax(0, 1.12fr) minmax(360px, 0.88fr)',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
         >
-          生成 Landing Page →
-        </button>
+          <section style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
+            <div
+              style={{
+                display: 'grid',
+                alignContent: 'center',
+                gap: 26,
+                flex: 1,
+                justifyItems: isMobile ? 'center' : 'stretch',
+                textAlign: isMobile ? 'center' : 'left',
+              }}
+            >
+              <div className="neon-kicker">SnapCo Branding Generator</div>
 
-        {/* Sample brands */}
-        <div style={{ marginTop: 28 }}>
-          <p style={{
-            fontSize: 11, color: C.mutedDark, marginBottom: 10,
-            letterSpacing: '0.08em', textTransform: 'uppercase',
-          }}>
-            快速範例
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {SAMPLES.map((name) => (
-              <button
-                key={name}
-                onClick={() => setBrandName(name)}
-                style={{
-                  fontSize: 12,
-                  padding: '5px 14px',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 20,
-                  background: 'rgba(255,255,255,0.04)',
-                  color: C.muted,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  transition: 'all 0.15s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'rgba(255,77,46,0.5)';
-                  e.currentTarget.style.color = C.bone;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
-                  e.currentTarget.style.color = C.muted;
-                }}
-              >
-                {name}
-              </button>
-            ))}
-          </div>
+              <div style={{ display: 'grid', gap: 18, justifyItems: isMobile ? 'center' : 'stretch' }}>
+                <h1
+                  className="neon-headline"
+                  style={{
+                    textAlign: isMobile ? 'center' : 'left',
+                    fontSize: isMobile ? 'clamp(3.45rem, 13.8vw, 5rem)' : undefined,
+                  }}
+                >
+                  輸入品牌名稱
+                  <br />
+                  <span className="neon-headline-accent">
+                    <span style={{ fontSize: '1.1em' }}>3</span>秒生成官網
+                  </span>
+                </h1>
+                <p
+                  style={{
+                    maxWidth: 640,
+                    margin: 0,
+                    fontSize: 18,
+                    lineHeight: 1.7,
+                    color: 'var(--text-muted)',
+                    textAlign: isMobile ? 'center' : 'left',
+                  }}
+                >
+                  AI 自動分析品牌屬性，選擇最適合的版型與視覺語言
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: isMobile ? 'center' : 'flex-start' }}>
+                <span className="signal-pill">
+                  <span className="signal-dot" />
+                  Designer Style
+                </span>
+                <span className="signal-pill">Magnetic CTA</span>
+                <span className="signal-pill">Free Download</span>
+              </div>
+            </div>
+
+            <div
+              className="beam-panel"
+              style={{
+                borderRadius: 28,
+                padding: isMobile ? 10 : 16,
+                display: 'grid',
+                gap: isMobile ? 6 : 14,
+                gridTemplateColumns: isMobile ? 'repeat(3, minmax(0, 1fr))' : isCompact ? '1fr' : 'repeat(3, minmax(0, 1fr))',
+                marginTop: 'auto',
+                justifyItems: isMobile ? 'center' : 'stretch',
+              }}
+            >
+              {metrics.map(([value, label]) => (
+                <div
+                  key={label}
+                  style={{
+                    padding: isMobile ? '6px 4px' : '10px 12px',
+                    textAlign: isMobile ? 'center' : 'left',
+                    justifySelf: isMobile ? 'center' : 'stretch',
+                    width: isMobile ? '100%' : 'auto',
+                  }}
+                >
+                  <div style={{ fontSize: isMobile ? 18 : 30, fontWeight: 800, letterSpacing: '-0.04em' }}>{value}</div>
+                  <div
+                    style={{
+                      color: 'var(--text-soft)',
+                      fontSize: isMobile ? 10 : 13,
+                      lineHeight: isMobile ? 1.2 : 1.4,
+                    }}
+                  >
+                    {label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section style={{ display: 'grid', alignContent: 'center' }}>
+            <div className="beam-panel" style={{ borderRadius: 32, padding: 28 }}>
+              <div style={{ display: 'grid', gap: 22 }}>
+                <div>
+                  <p className="panel-label">Brand Input</p>
+                  <input
+                    value={brandName}
+                    onChange={(event) => {
+                      setBrandName(event.target.value);
+                      setError('');
+                    }}
+                    onKeyDown={(event) => event.key === 'Enter' && handleGenerate()}
+                    placeholder="例如 Lumina、SteelForge、Brewed Kind"
+                    className="neon-input"
+                  />
+                  {error && (
+                    <p style={{ color: '#FF8A72', fontSize: 12, margin: '10px 0 0', opacity: 0.95 }}>{error}</p>
+                  )}
+                </div>
+
+                <StyleSelector value={selectedStyle} onChange={setSelectedStyle} />
+
+                <div style={{ display: 'grid', gap: 14 }}>
+                  <MagneticButton label="Generate Landing Page" onClick={handleGenerate} />
+                  <p style={{ margin: 0, fontSize: 13, color: 'var(--text-soft)', lineHeight: 1.6 }}>
+                    依品牌語意自動判斷分類、內容方向與版型，並保留手動風格覆蓋能力。
+                  </p>
+                </div>
+
+                <div style={{ display: 'grid', gap: 12 }}>
+                  <p className="panel-label" style={{ marginBottom: 0 }}>
+                    Quick Start Brands
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                    {SAMPLES.map((name) => (
+                      <button key={name} onClick={() => setBrandName(name)} className="chip-button">
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
 
-      {/* Footer */}
-      <p style={{
-        position: 'absolute', bottom: 24,
-        fontSize: 11, color: 'rgba(255,255,255,0.2)',
-        letterSpacing: '0.05em',
-      }}>
-        15 個類目 · 6 種明顯不同版型
-      </p>
+        <footer
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: 16,
+            alignItems: 'center',
+            marginTop: 24,
+            color: 'var(--text-soft)',
+            fontSize: 12,
+            flexWrap: 'wrap',
+          }}
+        >
+          <span>15 categories · 6 style directions · premium export pipeline</span>
+          <span>Obsidian / bone / primary accent / border beam</span>
+        </footer>
+      </div>
     </div>
   );
 }
