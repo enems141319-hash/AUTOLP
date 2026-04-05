@@ -243,9 +243,9 @@ const GLOBAL_KEYFRAMES = `
     33%      { transform: scale(1.07) translate(20px, -16px); }
     66%      { transform: scale(0.95) translate(-16px, 14px); }
   }
-  @keyframes lpBtnGlow {
-    0%,100% { box-shadow: 0 0 0px rgba(var(--lp-glow-rgb),0); }
-    50%      { box-shadow: 0 0 32px rgba(var(--lp-glow-rgb),0.55), 0 0 72px rgba(var(--lp-glow-rgb),0.22); }
+  @keyframes lpBtnPulse {
+    0%,100% { filter: brightness(1)    drop-shadow(0 0 0px  transparent); }
+    50%      { filter: brightness(1.08) drop-shadow(0 0 14px rgba(255,255,255,0.35)) drop-shadow(0 0 28px rgba(255,255,255,0.15)); }
   }
   @keyframes lpBtnSweep {
     from { transform: translateX(-140%); }
@@ -261,17 +261,19 @@ const GLOBAL_KEYFRAMES = `
   [data-lp-shell] button:not([data-no-glow]) {
     position: relative;
     overflow: hidden;
-    animation: lpBtnGlow 3.2s ease-in-out infinite;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    animation: lpBtnPulse 3s ease-in-out infinite;
+    transition: transform 0.18s ease, filter 0.18s ease !important;
   }
   [data-lp-shell] button:not([data-no-glow]):hover {
-    transform: translateY(-2px) !important;
+    transform: translateY(-3px) scale(1.03) !important;
+    filter: brightness(1.14) drop-shadow(0 0 18px rgba(255,255,255,0.55)) drop-shadow(0 0 40px rgba(255,255,255,0.25)) !important;
+    animation-play-state: paused !important;
   }
   [data-lp-shell] button:not([data-no-glow])::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.32) 50%, transparent 80%);
+    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.36) 50%, transparent 80%);
     transform: translateX(-140%);
     animation: lpBtnSweep 2.6s ease-in-out infinite;
     pointer-events: none;
