@@ -52,41 +52,25 @@ export function renderDesign(m: LandingModel): string {
       transform:translateX(-120%);
       animation:borderSweep 3.2s ease-in-out infinite;
     }
-    .design-noise-layer {
-      position: fixed;
+    .design-noise {
+      position: relative;
+    }
+    .design-noise::before {
+      content: '';
+      position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 9999;
-      opacity: 0.22;
+      z-index: 100;
+      opacity: 0.65;
+      border-radius: inherit;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
       mix-blend-mode: overlay;
     }
   </style>
 
-  <!-- Canvas noise: generated at runtime, always visible -->
-  <canvas id="design-noise-canvas" class="design-noise-layer" aria-hidden="true"></canvas>
-  <script>
-    (function() {
-      var c = document.getElementById('design-noise-canvas');
-      if (!c) return;
-      var W = 256, H = 256;
-      c.width = W; c.height = H;
-      c.style.width = '100%'; c.style.height = '100%';
-      c.style.imageRendering = 'pixelated';
-      var ctx = c.getContext('2d');
-      var img = ctx.createImageData(W, H);
-      var d = img.data;
-      for (var i = 0; i < d.length; i += 4) {
-        var v = Math.random() * 255 | 0;
-        d[i] = v; d[i+1] = v; d[i+2] = v; d[i+3] = 255;
-      }
-      ctx.putImageData(img, 0, 0);
-      c.style.backgroundImage = 'url(' + c.toDataURL() + ')';
-      c.style.backgroundSize = '256px 256px';
-      c.width = 0; c.height = 0;
-    })();
-  </script>
-
-  <section style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
+  <section class="design-noise" style="background:${D.bg};font-family:${m.font};color:${D.text};min-height:100vh;">
     <nav style="padding:30px 58px;border-bottom:1px solid ${D.line};display:flex;align-items:center;justify-content:space-between;">
       <div>
         <div style="font-size:12px;letter-spacing:0.20em;text-transform:uppercase;color:${D.muted};margin-bottom:8px;">Creative Office</div>
