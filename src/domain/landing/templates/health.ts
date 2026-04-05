@@ -29,7 +29,7 @@ export function renderHealth(m: LandingModel): string {
     <div style="padding:72px 60px;background:linear-gradient(135deg,${m.palette.primary},${m.palette.accent}33);position:relative;overflow:hidden;">
       <img src="${m.imgs.hero}" alt="${H(m.brandName)} 健康主視覺" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.18;mix-blend-mode:screen;" />
       <div style="position:relative;max-width:700px;">
-        <div style="display:inline-flex;background:rgba(255,255,255,0.16);color:#fff;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;margin-bottom:18px;">健康品牌 / 清楚成果 / 立即行動</div>
+        <div style="display:inline-flex;background:rgba(255,255,255,0.16);color:#fff;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700;margin-bottom:18px;">個人化訓練 · 教練全程陪伴 · 系統進步</div>
         <h1 style="font-size:clamp(38px,5vw,68px);line-height:1.06;font-weight:800;color:#fff;margin:0 0 16px;">${H(m.tagline)}</h1>
         <p style="font-size:17px;line-height:1.8;color:rgba(255,255,255,0.88);margin:0 0 26px;max-width:560px;">${H(m.subheadline)}</p>
         <button style="background:#fff;color:${m.palette.primary};border:none;border-radius:999px;padding:14px 28px;font-size:14px;font-weight:800;cursor:pointer;">${H(m.cta)}</button>

@@ -34,22 +34,22 @@ export const TEMPLATE_REGISTRY: Record<CategoryId, (m: LandingModel) => string> 
   travel: renderTravel,
 };
 
-const FOOTER_COPY: Record<CategoryId, { eyebrow: string; title: string; body: string }> = {
-  tech: { eyebrow: '開始成交', title: '讓產品價值，一開口就更有說服力。', body: '把定位、功能與信任整合成更能推動預約的首頁。' },
-  beauty: { eyebrow: '品牌升級', title: '讓高級感先成立，轉單才會更自然。', body: '把質地、故事與信任感收成更完整的品牌結尾。' },
-  food: { eyebrow: '立即轉單', title: '把想吃的衝動，推進成真正下單。', body: '讓風味、產地與購買理由在最後一屏一起成立。' },
-  health: { eyebrow: '開始轉換', title: '把成果講明白，行動就不再拖延。', body: '讓方法、差異與報名理由在結尾一次到位。' },
-  fashion: { eyebrow: '系列上線', title: '讓風格先打中人，價格才站得住。', body: '把品牌氣質與購買慾望在最後一屏一起拉滿。' },
-  design: { eyebrow: '下一步', title: '讓作品被喜歡，也被放心交付。', body: '把品味、方法與合作價值收成更強的接案訊號。' },
-  engineering: { eyebrow: '提升信任', title: '把硬實力，說成客戶敢直接詢價的理由。', body: '把規格、交期與驗證收成更有商務說服力的結尾。' },
-  jewelry: { eyebrow: '預約鑑賞', title: '讓珍貴感先到位，價值自然被看懂。', body: '把工藝、材質與收藏感收進更高級的最後一屏。' },
-  dining: { eyebrow: '立即訂位', title: '讓人還沒入座，就先想把位子訂下來。', body: '把料理、氣氛與訂位動機收成更迷人的最後一屏。' },
-  beverage: { eyebrow: '本季主打', title: '讓風味更有畫面，點單就更自然。', body: '把氣氛、味覺聯想與行動理由收得更完整。' },
-  legal: { eyebrow: '預約諮詢', title: '先建立信任，再談重要決定。', body: '把專業判斷、服務範圍與聯繫理由收成更穩的結尾。' },
-  hotel: { eyebrow: '立即入住', title: '讓入住的期待，在最後一屏就開始升溫。', body: '把氛圍、房型與預約動機收成更有吸引力的結尾。' },
-  finance: { eyebrow: '立即預約', title: '把專業講清楚，客戶才敢把資產交給你。', body: '讓策略、信任與行動在最後一屏形成更強的決策推力。' },
-  edu: { eyebrow: '開始學習', title: '把課程價值講明白，報名就更自然。', body: '用更清楚的學習路徑與行動設計，把興趣推進成報名。' },
-  travel: { eyebrow: '規劃旅程', title: '讓人看到結尾，就開始想排假出發。', body: '用更有情緒的收尾，把嚮往推進成真正的出發動機。' },
+const FOOTER_COPY: Record<CategoryId, { eyebrow: string; title: string; body: string; hint: string }> = {
+  tech:        { eyebrow: '免費開始使用', title: '今天設定，明天就跑得更快。', body: '14 天完整試用，不需信用卡，三分鐘完成設定，隨時可取消。', hint: '超過 3,000 個團隊已在使用' },
+  beauty:      { eyebrow: '立即探索', title: '找到真正適合你肌膚的那一支。', body: '完成肌膚問卷，取得個人化保養建議，首單享 85 折優惠。', hint: '超過 12,000 位顧客好評推薦' },
+  food:        { eyebrow: '立即訂購', title: '今天起，吃得更清楚一點。', body: '首週免費配送，隨時調整週期或暫停，無最低訂購限制。', hint: '有機認證 · 產地直送 · 無添加' },
+  health:      { eyebrow: '預約免費體驗', title: '第一堂課免費，讓身體告訴你差別在哪。', body: '由認證教練一對一評估體能狀態，設計你專屬的起始計畫。', hint: '超過 800 位學員持續訓練中' },
+  fashion:     { eyebrow: '探索新季', title: '找一件真的值得穿十年的衣服。', body: '每季 40 件核心款，尺寸 XS–2XL，90 天無條件退換保障。', hint: '責任採購 · 手工確認版型' },
+  design:      { eyebrow: '預約策略會議', title: '30 分鐘，讓我們先了解你的品牌方向。', body: '不收費，不帶提案，只是坐下來認真聊聊你想做什麼。', hint: '已服務超過 60 個品牌專案' },
+  engineering: { eyebrow: '索取技術報價', title: '把你的規格給我們，五天內給你答案。', body: '5 個工作天快速打樣，附完整 QC 報告，無最低訂單量限制。', hint: 'ISO 9001 認證 · 準時交付率 98.7%' },
+  jewelry:     { eyebrow: '預約私人鑑賞', title: '親眼看見工藝，才知道值不值得。', body: '預約工作室參觀，由首席工藝師親自介紹材質與製程，完全免費。', hint: '每件作品附工藝師親筆鑑定書' },
+  dining:      { eyebrow: '立即預約', title: '選一個值得記住的夜晚，讓我們來準備。', body: '全預約制小桌服務，限量座位，建議提前三天預訂。', hint: '季節菜單 · 在地食材 · 主廚親制' },
+  beverage:    { eyebrow: '訂閱本月豆單', title: '這個月最值得喝的豆子，現在上架了。', body: '訂閱首月 85 折，每月精選單品豆直送，隨時可暫停。', hint: '直接貿易 · 烘焙師監控 · 氮氣封裝' },
+  legal:       { eyebrow: '預約初次諮詢', title: '先聊三十分鐘，再決定要不要合作。', body: '初次諮詢不收費，由合夥律師親自接談，了解狀況再說。', hint: '20 年商業法律 · 合夥律師主責' },
+  hotel:       { eyebrow: '查看空房', title: '今晚有空房，明天可以不一樣。', body: '直接訂房享最低價保障，含免費早餐，Late Check-out 至 4PM。', hint: '24 小時管家 · Frette 寢具 · 城市核心' },
+  finance:     { eyebrow: '預約資產健檢', title: '你的資產，是時候認真看一次了。', body: '30 分鐘資產健檢，完全免費，沒有義務，由 CFA 顧問親自進行。', hint: 'CFA 認證顧問 · 無佣金透明收費' },
+  edu:         { eyebrow: '免費試聽一堂課', title: '先聽，再決定要不要投入。', body: '試聽後若不符合期待，全額退款，不需要任何理由。', hint: '業界導師 · 實作課程 · 小班 20 人' },
+  travel:      { eyebrow: '開始規劃旅程', title: '說說你想去哪，我們安排其餘的事。', body: '一對一行程規劃，限 8 人小團，全程在地嚮導陪伴，不用擔心品質。', hint: '深度小團 · 在地嚮導 · 無走馬看花' },
 };
 
 const GLOBAL_RESPONSIVE_CSS = `
@@ -220,7 +220,7 @@ function renderSharedFooterCta(m: LandingModel): string {
               <span style="position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,0.34) 48%,transparent 78%);transform:translateX(-130%);animation:lpFooterButtonSweep 4.2s ease-in-out infinite;"></span>
               <span style="position:relative;z-index:1;">${escapeHtml(m.cta)}</span>
             </button>
-            <div style="font-size:12px;color:${m.palette.muted};letter-spacing:0.06em;">從這一屏，把決策往前推一步</div>
+            <div style="font-size:12px;color:${m.palette.muted};letter-spacing:0.06em;">${copy.hint}</div>
           </div>
         </div>
       </div>

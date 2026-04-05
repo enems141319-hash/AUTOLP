@@ -31,7 +31,7 @@ export function renderJewelry(m: LandingModel): string {
     <div style="max-width:1280px;margin:0 auto;padding:0 60px 80px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
       <img src="${m.imgs.secondary ?? m.imgs.hero}" alt="${H(m.brandName)} 工藝形象" style="width:100%;height:540px;object-fit:cover;border-radius:28px;" />
       <div>
-        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${m.palette.accent};margin-bottom:12px;">作品背後的價值</div>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${m.palette.accent};margin-bottom:12px;">每件工藝的用心</div>
         <h2 style="font-size:34px;line-height:1.25;font-weight:400;margin:0 0 14px;">${H(m.pain)}</h2>
         <p style="font-size:16px;line-height:1.9;color:${m.palette.muted};margin:0 0 24px;">${H(m.solution)}</p>
         ${details}

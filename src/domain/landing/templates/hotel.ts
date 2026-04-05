@@ -26,7 +26,7 @@ export function renderHotel(m: LandingModel): string {
         </div>
       </nav>
       <div style="position:relative;z-index:1;padding:120px 60px 70px;max-width:760px;">
-        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${m.palette.accent};margin-bottom:16px;">旅宿氛圍 / 空間體驗 / 立即入住</div>
+        <div style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:${m.palette.accent};margin-bottom:16px;">精品旅宿 · 24H 管家服務 · 細節一致性</div>
         <h1 style="font-size:clamp(42px,5.2vw,74px);line-height:1.05;font-weight:300;color:#fff;margin:0 0 16px;">${H(m.tagline)}</h1>
         <p style="font-size:17px;line-height:1.85;color:rgba(255,255,255,0.86);margin:0 0 28px;max-width:560px;">${H(m.subheadline)}</p>
         <div style="display:flex;gap:14px;flex-wrap:wrap;">

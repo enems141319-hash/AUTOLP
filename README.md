@@ -1,4 +1,4 @@
-# AutoLP
+ï»¿# AutoLP
 
 AutoLP is a brand landing page generator built with Vite, React, TypeScript, and Zustand.
 
@@ -11,8 +11,10 @@ Users enter a brand name, choose auto-detect or a fixed category, and the app ge
 - Standalone HTML export
 - Chinese and English brand name detection
 - Shared mobile-responsive rendering layer
+- Shared premium footer CTA and gallery layer
 - GitHub Pages deployment via Actions
 - Distinct visual templates with category-specific imagery and motion
+- Favicon wired through `public/favicon.png`
 
 ## Commands
 
@@ -41,6 +43,7 @@ src/
   store/
   tests/
   utils/
+public/
 ```
 
 ## Detection Notes
@@ -48,13 +51,30 @@ src/
 The naming logic is rule-based, not random-first.
 
 Examples:
-- `¦n¦Y` -> `food`
-- `¦n³Ü¯ù¶¼` -> `beverage`
-- `¹©¤ý¤õÁç` -> `dining`
+- `å¥½åƒ` -> `food`
+- `å¥½å–èŒ¶é£²` -> `beverage`
+- `é¼ŽçŽ‹ç«é‹` -> `dining`
 - `SteelForge Solutions` -> `engineering`
 - `LexGroup` -> `legal`
 
 If no rule matches, the app falls back to a deterministic hash so the same name stays in the same category.
+
+## Content Notes
+
+Recent content updates:
+- all major preset copy has been rewritten in more commercially persuasive Chinese
+- category-specific footer CTA copy is centralized in `src/domain/landing/templates/index.ts`
+- customer reviews are rendered in a shared review-card system
+- review labels such as `Verified Client` were removed
+
+Main content source:
+- `src/data/brandPresets.ts`
+
+## Image Notes
+
+- Every category includes `hero`, `secondary`, and at least 3 gallery images
+- A recent validation pass confirmed 83 image URLs resolve successfully
+- Shared gallery output is injected in `src/domain/landing/templates/index.ts`
 
 ## Visual Notes
 
